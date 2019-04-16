@@ -5,6 +5,9 @@
  */
 package com.c2b.bancario.dominio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author david
@@ -13,10 +16,7 @@ public class Banco {
     
     private static Banco miBanco = null;
     
-    private final static int NUM_MAX_CLIENTES = 5;
-    
-    private Cliente[] clientes = new Cliente[NUM_MAX_CLIENTES];
-    private int numeroDeClientes = 0;
+    private List<Cliente> clientes = new ArrayList<Cliente>();
     
     private Banco(){
     }
@@ -29,9 +29,9 @@ public class Banco {
     }
     
     /**
-     * Añade el cliente dado al banco si hay sitio
+     * Añade el cliente dado al banco si no existe
      * @param cliente El cliente a añadir
-     * @return true si se puede añadir el cliente. False si no se ha podido añadir
+     * @return true si se añade el cliente. False si no se ha podido añadir
      */
     public boolean anadirCliente(Cliente cliente)
     {
@@ -39,13 +39,11 @@ public class Banco {
             return false;
         }
         
-        if(numeroDeClientes < NUM_MAX_CLIENTES)
-        {
-            clientes[numeroDeClientes++] = cliente;
+        if(!clientes.contains(cliente)){
+            clientes.add(cliente);
             return true;
         }
-        else
-        {
+        else{
             return false;
         }
     }
@@ -56,28 +54,27 @@ public class Banco {
      * @return Un array con tantas posiciones como clientes tiene el banco. Null si no hay ninguno
      */
     public Cliente[] getListaClientes(){
-        if(numeroDeClientes == 0){        
+        if(this.getNumeroDeClientes() == 0){        
             return null;
         }
         else{
-            Cliente[] clientesBanco = new Cliente[numeroDeClientes];
-            for(int i = 0; i<numeroDeClientes;i++){
-                clientesBanco [i] = clientes[i];
+            Cliente[] clientesBanco = new Cliente[this.getNumeroDeClientes()];
+            for(int i = 0; i<this.getNumeroDeClientes();i++){
+                clientesBanco [i] = clientes.get(i);
             } 
             return clientesBanco;
         }
     }
 
     public int getNumeroDeClientes() {
-        return numeroDeClientes;
+        return clientes.size();
     }
     
     public void imprimirEstado(){
-        System.out.println("Numero de clientes: " + this.numeroDeClientes);
+        System.out.println("Numero de clientes: " + this.getNumeroDeClientes());
         System.out.println("Clientes: ");
         Cliente[] clientes = this.getListaClientes();
-        if(clientes != null)
-        {
+        if(clientes != null){
             for(Cliente c:clientes){
             c.imprimirEstadoCliente();
             }
@@ -92,20 +89,16 @@ public class Banco {
      */
     public boolean anadirCuentaACliente(int idCliente, CuentaBancaria cuenta){
         Cliente c = this.buscarCliente(idCliente);
-        if(c != null)
-        {
-            if(c.anadirCuenta(cuenta))
-            {
+        if(c != null){
+            if(c.anadirCuenta(cuenta)){
                 return true;//La cuenta se ha añadido correctamente
             }
-            else
-            {
+            else{
                 System.out.println("No se ha podido asignar la cuenta al cliente");
                 return false;
             }
         }
-        else
-        {
+        else{
             System.out.println("No se ha encntrado el cliente");
             return false;
         }
@@ -117,10 +110,9 @@ public class Banco {
      * @return el cliente si lo encuentra. Null en caso de que no se encuentre.
      */
     private Cliente buscarCliente(int idCliente){
-        for(int i=0;i<this.numeroDeClientes;i++){
-            if(this.clientes[i].getId() == idCliente)
-            {
-                return this.clientes[i];
+        for(int i=0;i<this.getNumeroDeClientes();i++){
+            if(this.clientes.get(i).getId() == idCliente){
+                return this.clientes.get(i);
             }
         }
         return null;

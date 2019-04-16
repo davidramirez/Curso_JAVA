@@ -5,6 +5,9 @@
  */
 package com.c2b.bancario.dominio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author david
@@ -12,12 +15,10 @@ package com.c2b.bancario.dominio;
 public class Cliente {
     
     private static int ultimoId = 0;
-    private final static int NUM_MAX_CUENTAS = 2;
     
     private int id;
     private String nombre;
-    private CuentaBancaria[] cuentas;
-    private int numeroDeCuentas;
+    private List<CuentaBancaria> cuentas;
     
     /**
      * Crea un cliente con el nombre indicado. Su id se genera automáticamente,
@@ -38,9 +39,8 @@ public class Cliente {
      */
     public Cliente(String nombre, CuentaBancaria cuenta){
         this.nombre = nombre;
-        this.cuentas = new CuentaBancaria[NUM_MAX_CUENTAS];
-        this.cuentas[0] = cuenta;
-        this.numeroDeCuentas++;
+        this.cuentas = new ArrayList<CuentaBancaria>();
+        this.cuentas.add(cuenta);
         this.id = ++ultimoId;
     }
 
@@ -53,28 +53,24 @@ public class Cliente {
     }
     
     public int getNumeroDeCuentas() {
-        return this.numeroDeCuentas;
+        return this.cuentas.size();
     }
     
     /**
-     * Añade la cuenta dada si no supera el num max de cuentas
+     * Añade la cuenta dada si su id no coincide con ninguna de las que tenia el cliente
      * @param cuenta
      * @return false si no se puede añadir la cuenta. True si se ha podido
      */
-    public boolean anadirCuenta(CuentaBancaria cuenta)
-    {
-        if(cuenta==null)
-        {
+    public boolean anadirCuenta(CuentaBancaria cuenta){
+        if(cuenta==null){
             return false;
         }
         
-        if(numeroDeCuentas < NUM_MAX_CUENTAS)
-        {
-            cuentas[numeroDeCuentas++] = cuenta;
+        if(this.buscarCuenta(cuenta.getNumeroDeCuenta()) == null){
+            cuentas.add(cuenta);
             return true;
         }
-        else
-        {
+        else{
             return false;
         }
     }
@@ -85,16 +81,16 @@ public class Cliente {
      * @return Un array con tantas posiciones como cuentas tiene el cliente. Null si no tiene ninguna
      */
     public CuentaBancaria[] getListaCuentasBancarias(){
-        if(numeroDeCuentas == 0)
+        if(this.getNumeroDeCuentas() == 0)
         {        
             return null;
         }
         else
         {
-            CuentaBancaria[] cuentasCliente = new CuentaBancaria[numeroDeCuentas];
-            for(int i = 0; i<numeroDeCuentas;i++)
+            CuentaBancaria[] cuentasCliente = new CuentaBancaria[this.getNumeroDeCuentas()];
+            for(int i = 0; i<this.getNumeroDeCuentas();i++)
             {
-                cuentasCliente [i] = cuentas[i];
+                cuentasCliente [i] = cuentas.get(i);
             } 
             
             return cuentasCliente;
@@ -103,11 +99,11 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" + "id=" + id + ", nombre=" + nombre + ", cuentas=" + cuentas + ", numeroDeCuentas=" + numeroDeCuentas + '}';
+        return "Cliente{" + "id=" + id + ", nombre=" + nombre + ", cuentas=" + cuentas + ", numeroDeCuentas=" + this.getNumeroDeCuentas() + '}';
     }
     
     public void imprimirEstadoCliente(){
-        System.out.println("Cliente{" + "id=" + id + ", nombre=" + nombre + ", numeroDeCuentas=" + numeroDeCuentas);
+        System.out.println("Cliente{" + "id=" + id + ", nombre=" + nombre + ", numeroDeCuentas=" + this.getNumeroDeCuentas());
         System.out.println("Cuentas: ");
         CuentaBancaria[] cuentas = this.getListaCuentasBancarias();
         if(cuentas != null)
@@ -148,15 +144,41 @@ public class Cliente {
      * @return la cuenta que se corresponde al id. Null en caso de que no se encuentre
      */
     private CuentaBancaria buscarCuenta(String idCuenta){
-        for(int i=0;i<numeroDeCuentas;i++)
+        for(int i=0;i<this.getNumeroDeCuentas();i++)
         {
-            if(this.cuentas[i].getNumeroDeCuenta().equals(idCuenta))
+            if(this.cuentas.get(i).getNumeroDeCuenta().equals(idCuenta))
             {
-                return this.cuentas[i];
+                return this.cuentas.get(i);
             }
         }
         //Si no se encuentra
         return null;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cliente other = (Cliente) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+    
     
 }

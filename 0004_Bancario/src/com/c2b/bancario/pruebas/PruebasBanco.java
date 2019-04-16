@@ -51,12 +51,21 @@ public class PruebasBanco {
         System.out.println(Banco.getBanco().anadirCliente(c5));
         Banco.getBanco().imprimirEstado();
         
-        //Crear otro cliente y añadirlo, deberia devolver false
+        //Crear otro cliente y añadirlo
         System.out.println("Prueba sexto cliente ++++++++++++++++++++++++++");
         Cliente c6 = new Cliente("geronimo", new CuentaCorriente("E03262", 2054.0));
         System.out.println(Banco.getBanco().anadirCliente(c6));
         Banco.getBanco().imprimirEstado();
         
+        //Intentar añadir cliente existente
+        System.out.println("+++++++++++Prueba cliente repetido ++++++++++++++++++++++++++");
+        System.out.println(Banco.getBanco().anadirCliente(c6));
+        Banco.getBanco().imprimirEstado();
+        
+        //Intentar añadir cliente existente
+        System.out.println("+++++++++++Prueba cliente repetido ++++++++++++++++++++++++++");
+        System.out.println(Banco.getBanco().anadirCliente(c4));
+        Banco.getBanco().imprimirEstado();
         
         //Crear una cuenta y asignarsela a un cliente por id a traves del banco
         System.out.println("Prueba añadir cuenta a cliente ++++++++++++++++++++++++++");

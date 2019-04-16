@@ -5,6 +5,8 @@
  */
 package com.c2b.bancario.dominio;
 
+import java.util.Objects;
+
 /**
  *
  * @author david
@@ -44,7 +46,31 @@ public abstract class CuentaBancaria {
         return "CuentaBancaria{" + "numeroDeCuenta=" + numeroDeCuenta + ", saldo=" + saldo 
                 + ", tipo de cuenta= " + this.getClass() + '}';
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.numeroDeCuenta);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CuentaBancaria other = (CuentaBancaria) obj;
+        if (!Objects.equals(this.numeroDeCuenta, other.numeroDeCuenta)) {
+            return false;
+        }
+        return true;
+    }
     
     
 }

@@ -20,11 +20,26 @@ public class CuentaDeAhorro extends CuentaBancaria{
 
     @Override
     public boolean retirarDinero(double cantidad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(cantidad <= 0){
+            return false;
+        }
+        else if(cantidad <= this.getSaldo()){
+            this.saldo = this.getSaldo()-cantidad;
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     @Override
     public boolean ingresarDinero(double cantidad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(cantidad < 0){
+            return false;
+        }
+        else{
+            this.saldo = this.saldo + cantidad;
+            return true;
+        }
     }
 }
