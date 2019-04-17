@@ -11,7 +11,6 @@ import com.c2b.dominio.Punto;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.TreeSet;
 
 /**
  *
@@ -60,6 +59,6 @@ public class PruebaPuntos {
 
         System.out.println("Prueba busquedas binarias");
         System.out.println(Figuras.estaPunto(lista, p5));
-        System.out.println(Figuras.estaPunto(lista, new Punto(9, 9, Colores.VERDE)));;
+        System.out.println(Figuras.estaPunto(lista, new Punto(9, 9, Colores.VERDE)));
     }
 }
