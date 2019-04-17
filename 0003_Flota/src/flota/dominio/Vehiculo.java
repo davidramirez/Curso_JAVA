@@ -1,7 +1,9 @@
 package flota.dominio;
 
 import flota.dominio.Excepciones.VehiculoExcepcion;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Clase que modela un Vehiculo de una flota de transporte tiene la capacidad de
@@ -18,20 +20,19 @@ public abstract class Vehiculo {
     //atributos
     private String matricula = "";
     private double cargaMaxima = 3000.0;
-    private Caja[] cajas;
+    private ArrayList<Caja> cajas;
     /**
      * atributo que representa la carga en kg que tiene el vehículo. No puede
      * superar la carga máxima y no puede tener valores negativos
      */
     private double cargaActual = 0;
-    private int numCajas = 0;
     private final short TOTAL_CAJAS_PERMITIDAS;
 
     //const
     public Vehiculo(String matricula) {
         this.matricula = matricula;
         this.TOTAL_CAJAS_PERMITIDAS = TOTAL_CAJAS_PERM_POR_DEF;
-        this.cajas = new Caja[TOTAL_CAJAS_PERMITIDAS];
+        this.cajas = new ArrayList();
     }
 
     public Vehiculo(String matricula, short totalCajasPermitidas, double cargaMaxPermitida) throws VehiculoExcepcion{
@@ -45,7 +46,7 @@ public abstract class Vehiculo {
         this.matricula = matricula;
         this.TOTAL_CAJAS_PERMITIDAS = totalCajasPermitidas;
         this.cargaMaxima = cargaMaxPermitida;
-        this.cajas = new Caja[TOTAL_CAJAS_PERMITIDAS];
+        this.cajas = new ArrayList();
     }
 
     //metodos
@@ -59,7 +60,7 @@ public abstract class Vehiculo {
      */
     public void cargar(Caja caja) throws VehiculoExcepcion{
         //validar que solo entren
-        if (numCajas >= this.TOTAL_CAJAS_PERMITIDAS) {
+        if (this.getNumCajas() >= this.TOTAL_CAJAS_PERMITIDAS) {
             throw new VehiculoExcepcion("No se puede cargar, no entran más cajas en el vehículo");
         }
         //validar que no super la carga //caja.getPeso() < 0 ||  comprobacion ya innecesaria
@@ -69,8 +70,7 @@ public abstract class Vehiculo {
             throw ex;
         }
         this.cargaActual += caja.getPeso();
-        this.cajas[numCajas] = caja;
-        this.numCajas++;
+        this.cajas.add(caja);
     }
 
     /**
@@ -80,14 +80,12 @@ public abstract class Vehiculo {
      */
     public Caja descargar() {
         //validar que haya cajas
-        if (this.numCajas == 0) {
+        if (this.getNumCajas() == 0) {
             System.out.println(".. no quedan cajas");
             return null;
         }
         //devolvemos al última caja
-        this.numCajas--;
-        Caja cajaDescargar = cajas[this.numCajas];
-        cajas[this.numCajas] = null;
+        Caja cajaDescargar = this.cajas.remove(this.getNumCajas()-1);
         //otra opcion
         // Caja cajaDescargar = cajas[-- this.numCajas];
         
@@ -109,7 +107,7 @@ public abstract class Vehiculo {
     }
 
     public int getNumCajas() {
-        return numCajas;
+        return cajas.size();
     }
 
     public String getMatricula() {
@@ -124,19 +122,11 @@ public abstract class Vehiculo {
      */
     public Caja[]  getCajasCargadas(){
         
-        if(this.numCajas == 0){
+        if(this.getNumCajas() == 0){
             return null;
         }
         
-        Caja[] cajasCargadas = new Caja[this.numCajas];
-        int indice =0;
-        for(Caja c : this.cajas){
-            if(c == null){
-                break;
-            }
-            cajasCargadas[indice ++] = c;
-        }
-        return cajasCargadas;
+        return this.cajas.toArray(new Caja[this.getNumCajas()]);
     }
 
     @Override
@@ -149,8 +139,8 @@ public abstract class Vehiculo {
         return "Vehiculo{" + "matricula=" 
                 + matricula + ", cargaMaxima=" 
                 + cargaMaxima + ", cargaActual=" 
-                + cargaActual + ", numCajas=" + numCajas 
-                + ", lista cajas :" + Arrays.toString(this.cajas) + '}';
+                + cargaActual + ", numCajas=" + this.getNumCajas()
+                + ", lista cajas :" + this.cajas.toString() + '}';
     }
 
     public abstract double calcularConsumoFuel();
@@ -158,6 +148,32 @@ public abstract class Vehiculo {
     public short getTOTAL_CAJAS_PERMITIDAS() {
         return TOTAL_CAJAS_PERMITIDAS;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.matricula);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Vehiculo other = (Vehiculo) obj;
+        if (!Objects.equals(this.matricula, other.matricula)) {
+            return false;
+        }
+        return true;
+    }
     
 
+    
 }

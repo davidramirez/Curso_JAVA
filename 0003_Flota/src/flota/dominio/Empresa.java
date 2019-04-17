@@ -5,23 +5,21 @@
  */
 package flota.dominio;
 
+import java.util.Collection;
+import java.util.HashMap;
+
 /**
  *
  * @author begonaolea
  */
 public class Empresa {
     
-    //atributo de clase
-    public static final int NUM_MAX_VEHICULOS = 4;
-    
     private String nombre;
-    //lista = array de  NUM_MAX_VEHICULOS vehiculos
-    private static Vehiculo[] vehiculos;
-    private static int indiceVehiculo = 0;
+    private static HashMap<String, Vehiculo> vehiculos;
     
     static{
-        vehiculos = new Vehiculo[NUM_MAX_VEHICULOS];
-        vehiculos[indiceVehiculo++] = new Camion("0000A");
+        vehiculos = new HashMap();
+        vehiculos.put("AAAA", new Camion("AAAA"));
     }
 
     //constructores
@@ -31,30 +29,13 @@ public class Empresa {
     }
     
     public Empresa(String nombre) {
-        //llama al constructor Empesa(nombre y vehiculoinicial)
-
         this.nombre = nombre;
-            //*******************************************************
-          //Al hacer el array de vehiculos unico para todas las instancias, ya no es necesario 
-          //crear el primer vehiculo de la empresa, lo creamos en el bloque de inicialización de
-          //variables estáticas
-//        this(nombre, new Vehiculo("0000A"));
-        //******************************************************************
-//        this.nombre = nombre;
-//        this.vehiculos = new Vehiculo[NUM_MAX_VEHICULOS];
-//        this.vehiculos[indiceVehiculo] = new Vehiculo("0000A"); 
-//        indiceVehiculo ++;
     }
     
     public Empresa(String nombre, Vehiculo vehiculoInicial) {
         this.nombre = nombre;
-        
-        //Añadir el vehiculo si queda hueco
-        if(indiceVehiculo < NUM_MAX_VEHICULOS)
-        {
-            vehiculos[indiceVehiculo] = vehiculoInicial;
-            indiceVehiculo ++;
-        }
+        //Añadir el vehiculo
+        vehiculos.put(vehiculoInicial.getMatricula(), vehiculoInicial);
     }
      
     public String getNombre() {
@@ -63,29 +44,23 @@ public class Empresa {
     
     //Devuelve un array del tamaño adecuado
     public static Vehiculo[] getFlotaVehiculos(){
-        Vehiculo[] v = new Vehiculo[indiceVehiculo];
-        for(int i=0;i<indiceVehiculo;i++){
-            v[i] = vehiculos[i];
-        }
-        return v;
+        Vehiculo[] v = new Vehiculo[vehiculos.size()];
+        return vehiculos.values().toArray(v);
     }
     
     public static int getNumVehiculosDisponibles(){
-        return indiceVehiculo;
+        return vehiculos.size();
     }
     
     public static void addVehiculo(Vehiculo v){
-        //validar que no me paso
-        if(indiceVehiculo == NUM_MAX_VEHICULOS){
-            System.out.println("no puedo cargar el vehiculo");
-            return;
+        //validar no null
+        if(v != null){
+            vehiculos.put(v.getMatricula(), v);
         }
-        vehiculos[indiceVehiculo] = v;
-        indiceVehiculo ++; 
     }
 
     @Override
     public String toString() {
-        return "Empresa{" + "nombre=" + nombre + ", vehiculos=" + vehiculos + ", numeroVehiculos=" + indiceVehiculo + '}';
+        return "Empresa{" + "nombre=" + nombre + ", vehiculos=" + vehiculos + ", numeroVehiculos=" + getNumVehiculosDisponibles() + '}';
     }
 }
