@@ -43,6 +43,12 @@ public class Alumno implements Comparable<Alumno>{
         this.curso = curso;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
+
     @Override
     public String toString() {
         return "Alumno{" + "id= " + id + ", nombre=" + nombre + ", curso=" + curso + '}';
