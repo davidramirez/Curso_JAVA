@@ -14,8 +14,11 @@ public class PruebaHilos {
         System.out.println("Inicio main........");
         Runnable sn = new SumadorNumeros();
         
-        sn.run();
-        
+        //sn.run();
+
+        //Lanzar un hilo
+        Thread hilo1 = new Thread(sn);
+        hilo1.start();
         
         System.out.println("..... Fin del main");
     }
