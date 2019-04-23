@@ -16,7 +16,7 @@ public class SumadorNumeros implements Runnable {
         int acum = 0;
         for(int i = 0;i<20;i++){
             acum += i;
-            System.out.println(". total " + acum);
+            System.out.println(Thread.currentThread().getName() + ". total " + acum);
         }
         System.out.println(".... fin SumadorNumeros");
     }
