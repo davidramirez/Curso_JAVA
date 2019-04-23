@@ -28,6 +28,8 @@ public class PruebaHashMap {
         
         Alumno a4 = new Alumno("gg",3);
         a4.setId(2);
+        map.put(a4.getId(), a4);
+        //Se pisa el valor asociado a la clave
         
         System.out.println("Mostrar alumno cuyo id es el 2");
         System.out.println(map.get(2));
