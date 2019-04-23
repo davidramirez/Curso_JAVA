@@ -120,6 +120,25 @@ public class PruebasMap {
             System.out.println("Curso: " + c + " Nota media: " + medias2.get(c));
         }
         
+        //Prueba del comparator
+        System.out.println("Prueba comparator---------------");
+        List<Curso> lista = new ArrayList();
+        lista.add(c7);
+        lista.add(c9);
+        lista.add(c8);
+        lista.add(c6);
+        for(Curso c:lista){
+            System.out.println(c);
+        }
+        
+        System.out.println("ordenar y mostrar");
+        Collections.sort(lista);//No ordena bien porque el comparator considera 
+                                //cursos iguales por el id, y la list admite duplicados
+        
+        for(Curso c:lista){
+            System.out.println(c);
+        }
+        
         //Map<Curso, List<Alumno>
         System.out.println("\n\n+++++++++++++++++++++++++ lista de alumnos por curso +++++++++++++++++++++++++++\n\n");
         
