@@ -29,7 +29,7 @@ public class Vecino implements Runnable{
     @Override
     public void run() {
         //Añadir 20 cartas al buzón
-        for(int i = 0; i<20 ; i++){
+        for(int i = 0; i<30 ; i++){
             try {
                 char letra = (char)('A'+i);
                 String carta = "carta " + letra + " del vecino " +this.getNombre();
