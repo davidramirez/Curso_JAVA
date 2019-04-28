@@ -6,6 +6,7 @@
 package com.c2b.oca;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -14,6 +15,7 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,11 +34,15 @@ public class OcaVentana extends JFrame {
     private static final int NUM_MAX_DADO = 5;
     
     private JButton[] tablero;
-    private JButton jugador1;
-    private JButton jugador2;
+    private JButton jugador;
     
+    //quitar
     private int posJ1;
-    private int posJ2;
+    
+    //Usar
+    private final int NUM_JUGADORES = 4;//Pedir al principio
+    private int[] posicionesJugadores;
+    private int turno;//num con el jugador que tiene el turno
     
     private JLabel dado;
 
@@ -47,7 +53,6 @@ public class OcaVentana extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         posJ1=0;
-        posJ2=0;
         
         iniciarVentana();
     }
@@ -58,7 +63,7 @@ public class OcaVentana extends JFrame {
         //c.setLayout(new BorderLayout(10, 10));
         
         //Creo 2 paneles con sus correspondientes gestores de distribucion
-        JPanel panelJuego = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelJuego = new JPanel(new GridLayout(4, 4));//new FlowLayout(FlowLayout.LEFT));
         JPanel panelEstado = new JPanel();
         panelEstado.setLayout(new BoxLayout(panelEstado, BoxLayout.Y_AXIS));
         //Y los añado en su sitio en el panel original de la ventana
@@ -66,26 +71,18 @@ public class OcaVentana extends JFrame {
         c.add(panelEstado, BorderLayout.SOUTH);
         
         //Creo los elementos del panel de estado
-        jugador1 = new JButton();
-        jugador1.setText("Jugar 1");
-        jugador1.setActionCommand("J1");
-        jugador2 = new JButton();
-        jugador2.setText("Jugar 2");
-        jugador2.setActionCommand("J2");
+        jugador = new JButton();
+        jugador.setText("Jugar 1");
+        jugador.setActionCommand("J");
         dado = new JLabel();
         dado.setText("");
         dado.setSize(new Dimension(64, 64));
         
-        //El boton del jugador2 está desactivado
-        jugador2.setEnabled(false);
-        
-        panelEstado.add(jugador1);
-        panelEstado.add(jugador2);
+        panelEstado.add(jugador);
         panelEstado.add(dado);
         
         ActionListener oyente = new BotonJugadorListener();
-        jugador1.addActionListener(oyente);
-        jugador2.addActionListener(oyente);
+        jugador.addActionListener(oyente);
         
         //Creo los elementos del panel de juego con su listener
         ActionListener oyente2 = new BotonCasillaListener();
@@ -118,6 +115,32 @@ public class OcaVentana extends JFrame {
         tablero[9].setActionCommand("Meta");
         tablero[9].setIcon(new ImageIcon("meta.png"));
         
+        //Prueba nueva ficha
+        JPanel ficha = new JPanel();
+        ficha.setLayout(new BoxLayout(ficha, BoxLayout.Y_AXIS));
+        ficha.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+        JLabel num = new JLabel("1", JLabel.LEFT);
+        num.setAlignmentX(CENTER_ALIGNMENT);
+        ficha.add(num);
+        JLabel img = new JLabel(new ImageIcon("algo.png"));
+        img.setAlignmentX(CENTER_ALIGNMENT);
+        ficha.add(img);
+        JPanel jugadores = new JPanel();
+        jugadores.setLayout(new BoxLayout(jugadores, BoxLayout.X_AXIS));
+        JLabel imgFicha = new JLabel(new ImageIcon("ficha.png"));
+        jugadores.add(imgFicha);
+        imgFicha.setSize(50, 50);
+        JLabel imgFicha2 = new JLabel(new ImageIcon("ficha.png"));
+        jugadores.add(imgFicha2);
+        JLabel imgFicha3 = new JLabel(new ImageIcon("ficha.png"));
+        jugadores.add(imgFicha3);
+        jugadores.setAlignmentX(CENTER_ALIGNMENT);
+        ficha.add(jugadores);
+        
+        panelJuego.add(ficha);
+        //Prueba casilla
+        Casilla cas = new Casilla(2, TipoCasilla.OCA);
+        panelJuego.add(cas);
         
         //gestionar el tamaño de la ventana
         this.pack();
@@ -168,7 +191,7 @@ public class OcaVentana extends JFrame {
             JButton b = (JButton) e.getSource();
             //JOptionPane.showMessageDialog(b.getParent(), "pulsado!");
             //Ver por el boton qué jugador está activo
-            if(jugador1.isEnabled()){
+            if(jugador.isEnabled()){
                 //pongo un texto en el boton
                 b.setText("j1");
                 
