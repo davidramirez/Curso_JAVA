@@ -21,17 +21,7 @@ Directiva de página--%>
     </head>
     <body>
         <div class="container">
-            <%
-                //leer el atributo de peticion usuario
-                String nombre = "Amigo";
-                
-                if(request.getAttribute("usuario1") != null){
-                    Usuario s = (Usuario) request.getAttribute("usuario1");
-                    nombre = s.getNombre();
-                }
-            %>
-            <h1>Hola <%=nombre%></h1>
-
+            <c:if test="${sessionScope.usuario != null}"><h2>Hola ${sessionScope.usuario.nombre}</h2></c:if>
             <a href="listaProductos">Lista de Productos</a>
         </div>
 

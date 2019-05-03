@@ -5,6 +5,7 @@
  */
 package com.c2b.comprasjsp;
 
+import com.c2b.comprasjsp.dominio.Usuario;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,7 +45,7 @@ public class LoginServlet extends HttpServlet {
         String authPass = "1234";
         
         if(usuario.equals(authNombre) && pass.equals(authPass)){
-            request.getSession().setAttribute("usuario", usuario);
+            request.getSession().setAttribute("usuario", new Usuario(usuario, pass));
 //            System.out.println("usuario guardado en sesion");
 //            System.out.println(request.getSession().getAttribute("usuario"));
             //request.getRequestDispatcher("listaProductos").forward(request, response);

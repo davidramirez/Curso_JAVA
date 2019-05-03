@@ -23,7 +23,7 @@
     <body>
 
         <div class="container">
-            <c:if test="${sessionScope.usuario != null}"><h2>Hola ${sessionScope.usuario}</h2></c:if>
+            <c:if test="${sessionScope.usuario != null}"><h2>Hola ${sessionScope.usuario.nombre}</h2></c:if>
             <h1>Productos</h1>
 
             <div class="card-columns">
@@ -81,20 +81,6 @@
                 </div>--%>
 
             </div>
-            
-            <%
-                //leer el atributo de peticion usuario
-                String nombre = "Amigo";
-                
-                if(request.getAttribute("usuario1") != null){
-                    Usuario s = (Usuario) request.getAttribute("usuario1");
-                    nombre = s.getNombre();
-                }
-            %>
-            <h1>Hola <%=nombre%></h1>
-            
-            <h1>Ejemplo con ELs</h1>
-            <h2>Hola ${requestScope.usuario1.nombre}</h2>
         </div>
 
         <!-- Optional JavaScript -->
