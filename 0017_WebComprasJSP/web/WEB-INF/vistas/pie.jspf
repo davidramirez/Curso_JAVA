@@ -1,0 +1,9 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<hr>
+<h2>&COPY;David Ramirez</h2>
+<div style="background-color: ${cookie.color.value}">
+    <a class="btn btn-primary" href="preferencias?color=blue">Azul</a>
+    <a class="btn btn-danger" href="preferencias?color=red">Rojo</a>
+    <a class="btn btn-success" href="preferencias?color=green">Verde</a>
+</div>

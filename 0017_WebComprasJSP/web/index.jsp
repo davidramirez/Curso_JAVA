@@ -6,6 +6,7 @@
 
 Directiva de página--%>
 <%@page import="com.c2b.comprasjsp.dominio.Usuario"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
@@ -20,10 +21,14 @@ Directiva de página--%>
         <title>Tienda</title>
     </head>
     <body>
+        <%@include file="WEB-INF/vistas/menu.jspf" %>
         <div class="container">
+            <h1>${applicationScope.tituloAPP}</h1>
             <c:if test="${sessionScope.usuario != null}"><h2>Hola ${sessionScope.usuario.nombre}</h2></c:if>
             <a href="listaProductos">Lista de Productos</a>
         </div>
+            
+            <%@include file="WEB-INF/vistas/pie.jspf" %>
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->

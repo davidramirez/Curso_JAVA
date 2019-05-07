@@ -21,12 +21,13 @@
         <title>Catálogo</title>
     </head>
     <body>
-
+        <%@include file="WEB-INF/vistas/menu.jspf" %>
         <div class="container">
+            <h1>${applicationScope.tituloAPP}</h1>
             <c:if test="${sessionScope.usuario != null}"><h2>Hola ${sessionScope.usuario.nombre}</h2></c:if>
-            <h1>Productos</h1>
+                <h1>Productos</h1>
 
-            <div class="card-columns">
+                <div class="card-columns">
                 <%-- Forma A 
                 <%
                     List<String> productos = (List) request.getAttribute("productos");
@@ -51,7 +52,7 @@
                 ${cookie.color}--%>
                 <c:if test="${productos.size() == 0}">lista vacia</c:if>
                 <c:forEach items="${productos}" var="p">
-                    <div class="card" style="width: 18rem;">
+                    <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">${p}</h5>
                             <p class="card-text">Muy monos.</p>
@@ -81,8 +82,11 @@
                 </div>--%>
 
             </div>
+                
+                <h2>jsession id es ${cookie.JSESSIONID.value}</h2>
         </div>
 
+        <%@include file="WEB-INF/vistas/pie.jspf" %>
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

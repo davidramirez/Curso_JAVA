@@ -19,7 +19,9 @@
         <title>Login tienda</title>
     </head>
     <body>
+        <%@include file="WEB-INF/vistas/menu.jspf" %>
         <div class="container">
+            <h1>${applicationScope.tituloAPP}</h1>
             <h1>Introduce tus datos para iniciar sesión</h1>
             <c:if test="${requestScope.noValido}">
                 <div class="alert alert-danger">
@@ -39,6 +41,8 @@
             </form>
 
         </div>
+
+        <%@include file="WEB-INF/vistas/pie.jspf" %>
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->

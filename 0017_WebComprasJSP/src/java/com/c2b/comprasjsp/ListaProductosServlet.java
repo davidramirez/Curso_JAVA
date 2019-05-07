@@ -20,9 +20,15 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author david
  */
-@WebServlet(name = "ListaProductosServlet", urlPatterns = {"/listaProductos"})
+@WebServlet(name = "ListaProductosServlet", urlPatterns = {"/listaProductos"}, loadOnStartup = 0)
 public class ListaProductosServlet extends HttpServlet {
 
+    @Override
+    public void init() throws ServletException {
+        //ámbito aplicacion, va a estar disponible desde el inicio
+        System.out.println("...cargando atributos de aplicación...");
+        this.getServletContext().setAttribute("tituloAPP", "Aplicacion ventas");
+    }
 
    /**
      * Handles the HTTP <code>GET</code> method.
@@ -38,6 +44,10 @@ public class ListaProductosServlet extends HttpServlet {
         //Ejemplo de atributos en diferentes ámbitos
         //ambito de petición
         request.setAttribute("usuario1", new Usuario("Luis", "12345"));
+        
+//        //include de un servlet
+//        request.getRequestDispatcher("pag").include(request, response);
+//        //sigue despues ejecutandose este método
         
         
         
