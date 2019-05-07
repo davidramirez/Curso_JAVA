@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Crear producto</title>
+    </h:head>
+    <h:body>
+        <h2>Introduce los datos del producto</h2>
+        <h:form>
+            <h:panelGrid columns="2">
+                Id: <h:inputText value="#{ gestionarProductos.producto.id }" id="ID"/>
+                Nombre: <h:inputText value="#{ gestionarProductos.producto.nombre }" />
+                Descripción: <h:inputText value="#{ gestionarProductos.producto.descripcion }" />
+                Precio: <h:inputText value="#{ gestionarProductos.producto.precio }" />
+                Stock: <h:inputText value="#{ gestionarProductos.producto.stock }" />
+                Categoría: 
+                <h:selectOneMenu value="#{gestionarProductos.producto.categoria}">
+                    <f:selectItems value="#{app.categorias}"/>
+                    <f:selectItem itemValue="otra" itemLabel="Otra categoría" />
+                </h:selectOneMenu>
+                <h:commandButton action="#{ gestionarProductos.altaProducto() }" value="Crear producto"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
+

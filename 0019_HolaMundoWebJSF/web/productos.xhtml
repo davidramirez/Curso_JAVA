@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Productos</title>
+    </h:head>
+    <h:body>
+        <h:link value="Crear Producto" outcome="crearProducto"></h:link>
+        <h1>Lista productos</h1>
+
+        <h:dataTable value = "#{gestionarProductos.listaProductos}" var = "producto" border="1">
+            <h:column>    				
+                <f:facet name = "header">ID</f:facet>    				
+                    #{producto.id}
+                <f:facet name = "footer">ID</f:facet>    				
+            </h:column>
+            <h:column>
+                <f:facet name = "header">Nombre</f:facet>
+                    #{producto.nombre}
+                <f:facet name = "footer">Nombre</f:facet>
+            </h:column>
+            <h:column>
+                <f:facet name = "header">Descripción</f:facet>
+                    #{producto.descripcion}
+                <f:facet name = "footer">Descripción</f:facet>
+            </h:column>
+            <h:column>
+                <f:facet name = "header">Categoría</f:facet>
+                    #{producto.categoria}
+                <f:facet name = "footer">Categoría</f:facet>
+            </h:column>
+            <h:column>
+                <f:facet name = "header">Stock</f:facet>
+                    #{producto.stock}
+                <f:facet name = "footer">Stock</f:facet>
+            </h:column>
+            <h:column>
+                <f:facet name = "header">Precio</f:facet>
+                    #{producto.precio}
+                <f:facet name = "footer">Precio</f:facet>
+            </h:column>
+        </h:dataTable>
+    </h:body>
+</html>
+
