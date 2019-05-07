@@ -92,6 +92,7 @@ public class AlquilerManagedBean implements Serializable {
                 return d;
             }
         }
+        //error
         return null;
     }
 
