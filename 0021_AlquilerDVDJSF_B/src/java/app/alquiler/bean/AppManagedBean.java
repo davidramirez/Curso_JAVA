@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.model.SelectItem;
 
@@ -58,9 +60,11 @@ public class AppManagedBean {
     }
     
     public String anadirGenero(){
+        FacesContext fc = FacesContext.getCurrentInstance();
+
         this.categorias.add(new SelectItem(this.genero));
         this.genero = new String();
-                
+        fc.addMessage("INFO", new FacesMessage("Se ha añadido el nuevo género"));
         return "genero";
     }
     

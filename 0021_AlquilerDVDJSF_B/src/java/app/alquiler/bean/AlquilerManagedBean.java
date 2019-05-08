@@ -108,14 +108,13 @@ public class AlquilerManagedBean implements Serializable {
     //se le llama desde el formulario de guardado/modificación
     public String crearDVD() {
         FacesContext fc = FacesContext.getCurrentInstance();
-
         if (modoNuevo) {
             if (this.buscar(dvd.getId()) == null) {
                 appManagedBean.getDvds().put(dvd.getId(), dvd);
                 dvd = new DVDItem();
-                fc.addMessage(null, new FacesMessage("Se ha añadido el nuevo DVD"));//id del componente al que se asociaría y mensaje
+                fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "DVD añadido", "Se ha añadido el nuevo DVD con éxito"));//id del componente al que se asociaría y mensaje
             }else{
-                fc.addMessage("ID", new FacesMessage("El id proporcionado ya existe"));//id del componente al que se asociaría y mensaje
+                fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Id repetido", "El id proporcionado ya existe"));//id del componente al que se asociaría y mensaje
                 return "crearDVD";
             }
         } else {
@@ -123,13 +122,13 @@ public class AlquilerManagedBean implements Serializable {
                 appManagedBean.getDvds().remove(this.idViejo);
                 appManagedBean.getDvds().put(dvd.getId(), dvd);
                 dvd = new DVDItem();
-                fc.addMessage(null, new FacesMessage("Se ha modificado el DVD con éxito"));
+                fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "DVD modificado", "Se ha modificado el DVD con éxito"));
             }else if(dvd.getId() == idViejo){
                 appManagedBean.getDvds().put(idViejo, dvd);
-                fc.addMessage(null, new FacesMessage("Se ha modificado el DVD con éxito"));
+                fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "DVD modificado", "Se ha modificado el DVD con éxito"));
             }
             else{
-                fc.addMessage("ID", new FacesMessage("El id proporcionado ya existe"));
+                fc.addMessage("ERROR", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Id repetido", "El id proporcionado ya existe"));
                 return "crearDVD";
             }
         }
