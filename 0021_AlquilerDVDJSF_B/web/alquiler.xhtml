@@ -15,6 +15,10 @@
     </h:head>
     <h:body>
         <div class="container">
+            <h:panelGroup layout="block" styleClass="alert alert-success" rendered="#{facesContext.getMessageList(null).size()==0}">
+                <h:messages></h:messages>                
+            </h:panelGroup>
+            
             <h1><i class="fas fa-compact-disc"></i>Lista de películas<i class="fas fa-compact-disc"></i></h1>
             <div class="table-responsive-md">
                 <h:dataTable value = "#{alquiler.lista}" var = "dvd" cellpadding="10" styleClass="table table-striped table-hover">

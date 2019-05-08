@@ -11,6 +11,8 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 /**
@@ -105,16 +107,31 @@ public class AlquilerManagedBean implements Serializable {
 
     //se le llama desde el formulario de guardado/modificación
     public String crearDVD() {
+        FacesContext fc = FacesContext.getCurrentInstance();
 
         if (modoNuevo) {
             if (this.buscar(dvd.getId()) == null) {
                 appManagedBean.getDvds().put(dvd.getId(), dvd);
                 dvd = new DVDItem();
-            }//else error
+                fc.addMessage(null, new FacesMessage("Se ha añadido el nuevo DVD"));//id del componente al que se asociaría y mensaje
+            }else{
+                fc.addMessage("ID", new FacesMessage("El id proporcionado ya existe"));//id del componente al que se asociaría y mensaje
+                return "crearDVD";
+            }
         } else {
-            appManagedBean.getDvds().remove(this.idViejo);
-            appManagedBean.getDvds().put(dvd.getId(), dvd);
-            dvd = new DVDItem();
+            if(this.buscar(dvd.getId()) == null){
+                appManagedBean.getDvds().remove(this.idViejo);
+                appManagedBean.getDvds().put(dvd.getId(), dvd);
+                dvd = new DVDItem();
+                fc.addMessage(null, new FacesMessage("Se ha modificado el DVD con éxito"));
+            }else if(dvd.getId() == idViejo){
+                appManagedBean.getDvds().put(idViejo, dvd);
+                fc.addMessage(null, new FacesMessage("Se ha modificado el DVD con éxito"));
+            }
+            else{
+                fc.addMessage("ID", new FacesMessage("El id proporcionado ya existe"));
+                return "crearDVD";
+            }
         }
 
         return "alquiler";
