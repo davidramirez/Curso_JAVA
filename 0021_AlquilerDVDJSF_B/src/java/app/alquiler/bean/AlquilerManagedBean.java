@@ -9,7 +9,6 @@ import app.alquiler.modelo.DVDItem;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;

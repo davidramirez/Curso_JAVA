@@ -25,4 +25,16 @@
             <to-view-id>/crearDVD.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
+    <application>
+        <locale-config>
+            <default-locale>es</default-locale>
+            <supported-locale>es</supported-locale>
+            <supported-locale>en</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>app.alquiler.recursos.mensajes</base-name>
+            <var>msg</var>
+        </resource-bundle>
+    </application>
 </faces-config>

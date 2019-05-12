@@ -47,6 +47,7 @@
 
             </h:panelGrid>
             <h:commandButton action="#{alquiler.crearDVD()}" value="#{alquiler.modoNuevo?'Crear DVD':'Modificar DVD'}" styleClass="btn btn-primary"/>
+            <h:commandButton immediate="true" action="alquiler" value="cancelar" styleClass="btn btn-secondary"/>
         </h:form>
     </ui:define>
 </ui:composition>

@@ -6,7 +6,9 @@
 package app.alquiler.bean;
 
 import app.alquiler.modelo.DVDItem;
+import app.alquiler.modelo.Usuario;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
@@ -27,6 +29,8 @@ public class AppManagedBean {
     
     private LinkedHashMap<Integer, DVDItem> dvds;
     
+    private HashSet<Usuario> usuarios;
+    
     public AppManagedBean() {
         dvds = new LinkedHashMap();
         dvds.put(1, new DVDItem(1, "Las crónicas de Narnia : el l...", "Fantasía", false));
@@ -41,6 +45,12 @@ public class AppManagedBean {
         this.categorias.add(new SelectItem("Animación"));
         this.categorias.add(new SelectItem("Histórico"));
         this.categorias.add(new SelectItem("Terror"));
+        
+        usuarios = new HashSet();
+        usuarios.add(new Usuario("david", "1234"));
+        usuarios.add(new Usuario("pedro", "1234"));
+        usuarios.add(new Usuario("ana", "1234"));
+        usuarios.add(new Usuario("tere", "1234"));
     }
 
     public List<SelectItem> getCategorias() {
@@ -57,6 +67,10 @@ public class AppManagedBean {
 
     public void setGenero(String genero) {
         this.genero = genero;
+    }
+
+    public HashSet<Usuario> getUsuarios() {
+        return usuarios;
     }
     
     public String anadirGenero(){
