@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Resultado</title>
+    </h:head>
+    <h:body>
+        Resultado
+        
+        
+        <h:outputLabel value="#{adivina.ganador ? 'Has ganado':'Has perdido'}"/>
+        <h:link rendered="#{not adivina.ganador}" value="Juega otra vez" outcome="index"/>
+        
+        Fecha: #{adivina.fecha}
+        
+        DNI: #{adivina.dni}
+    </h:body>
+</html>
+
