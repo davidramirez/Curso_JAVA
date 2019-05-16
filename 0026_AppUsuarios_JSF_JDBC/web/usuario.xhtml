@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/plantillas/plantillaPrincipal.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        <h:outputText value="#{usuarios.modoEditar?'Modificar usuario':'Crear usuario'}" />
+    </ui:define>
+
+    <ui:define name="top">
+        <h:outputText value="#{usuarios.modoEditar?'Modificar usuario':'Crear usuario'}" />
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="usuarioform">
+            <h:panelGrid columns="3">
+                <h:outputLabel value="Id:" rendered="#{usuarios.modoEditar}"/> 
+                <h:outputLabel value="#{ usuarios.usuario.id }" id="ID" 
+                               styleClass="form-control" rendered="#{usuarios.modoEditar}">
+
+                </h:outputLabel>
+                <h:message styleClass="alert alert-warning d-block" for="ID" rendered="#{usuarios.modoEditar}"/>
+
+                Nombre: 
+                <h:inputText value="#{ usuarios.usuario.nombre }" id="nombre" styleClass="form-control" 
+                             required="true" requiredMessage="El nombre es necesario"
+                             validatorMessage="El nombre no puede tener más de 25 caracteres">
+                    <f:validateLength maximum="25"/>
+                </h:inputText>
+                <h:message styleClass="alert alert-warning d-block" for="nombre"/>
+
+                DNI: 
+                <h:inputText value="#{usuarios.usuario.dni}" id="dni" styleClass="form-control" 
+                             required="true" requiredMessage="El DNI es necesario"
+                             validatorMessage="El formato del DNI no es válido">
+                    <f:validateRegex pattern="([0-9]{8})[a-zA-Z]" />
+                    <!--<f:validateLength minimum="9" maximum="9"/>-->
+                    <!--<f:ajax event="change" execute="dni" render="hayDni msj botonGrabar" listener="#{usuarios.existeDNI}"/>-->
+                    <f:ajax event="keyup" execute="dni" render="hayDni msj botonGrabar" listener="#{usuarios.existeDNI}"/>
+                </h:inputText>
+                <h:panelGroup id="hayDni">
+                    <h:outputLabel id="dnisalida" rendered="#{not usuarios.dniValido}" 
+                                   value="El DNI dado ya existe"  styleClass="alert alert-warning">
+                    </h:outputLabel>
+                    <h:message for="dni" id="msj" styleClass="alert alert-warning"/>
+                </h:panelGroup>
+
+            </h:panelGrid>
+            <h:commandButton id="botonGrabar" action="#{usuarios.grabarUsuario()}" 
+                             value="#{usuarios.modoEditar?'Modificar Usuario':'Crear Usuario'}" 
+                             styleClass="btn btn-primary" disabled="#{not usuarios.dniValido}"/>
+            <h:commandButton immediate="true" action="index" value="cancelar" styleClass="btn btn-secondary"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
+

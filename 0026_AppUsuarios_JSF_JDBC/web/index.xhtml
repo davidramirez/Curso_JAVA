@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/plantillas/plantillaPrincipal.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Alta usuario
+    </ui:define>
+
+    <ui:define name="top">
+        Alta usuario
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>Lista de usuarios</h1>
+        <h:dataTable value="#{usuarios.lista}" var="usr" cellpadding="2" >
+            <h:column>    				
+                <f:facet name = "header">ID</f:facet>    				
+                    #{usr.id} 				
+            </h:column>
+
+            <h:column>
+                <f:facet name = "header">Nombre</f:facet>
+                    #{usr.nombre}
+            </h:column>
+
+            <h:column>
+                <f:facet name = "header">DNI</f:facet>
+                    #{usr.dni}
+            </h:column>
+
+            <h:column>
+                <f:facet name = "header">Acción</f:facet>
+                <h:form>
+                    <h:commandButton styleClass="btn btn-primary mx-1" value="Modificar" 
+                                     action="#{usuarios.irAEditarUsuario(usr.id)}"/>
+                    <h:commandButton styleClass="btn btn-danger mx-1" value="Eliminar" 
+                                     action="#{usuarios.eliminarUsuario(usr.id)}"/>
+                </h:form>
+            </h:column>
+
+        </h:dataTable>
+
+        <h:form>
+            <h:commandButton styleClass="btn btn-primary mx-1" 
+                             value="Crear Usuario" action="#{usuarios.irACrearUsuario()}"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

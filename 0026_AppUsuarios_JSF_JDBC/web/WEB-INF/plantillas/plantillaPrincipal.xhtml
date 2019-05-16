@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
+
+        <title><ui:insert name="title">Gestión de usuarios</ui:insert></title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top" class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md">
+                    <h1 class="text-center">
+                        <ui:insert name="top">Gestión de usuarios</ui:insert>
+                    </h1>
+                </div>
+                <!--
+                <h:outputLabel class="col-md-3" rendered="#{usuario.usuarioLogueado != null}">
+                    <h2 class="text-right"><i class="fas fa-user-ninja"></i> #{usuario.usuarioLogueado.nombre}</h2>
+                </h:outputLabel>
+                <div class="col-1">
+                    <h:form>
+                        <h:commandButton styleClass="btn btn-outline-primary" value="ES" action="#{usuario.ponerIdioma('es')}">
+                            <span class="flag-icon flag-icon-es"></span>
+                        </h:commandButton>
+                        <h:commandButton styleClass="btn btn-outline-primary" value="EN" action="#{usuario.ponerIdioma('en')}">
+                            <span class="flag-icon flag-icon-gb"></span>
+                        </h:commandButton>
+                    </h:form>
+                </div>
+                -->
+            </div>
+        </div>
+
+        <!--
+        <nav>
+            <ui:insert name="menu">
+                <ul class="nav nav-tabs justify-content-center">
+                    <li class="nav-item">
+                        <h:link value="Inicio" outcome="home" styleClass="nav-link"></h:link>
+                    </li>
+                    <li class="nav-item">
+                        <h:link value="Alquilar DVDs" outcome="alquiler" styleClass="nav-link"></h:link>
+                    </li>
+                    <li class="nav-item">
+                        <h:link value="Gestionar géneros" outcome="genero" styleClass="nav-link"></h:link>
+                    </li>
+                    <li class="nav-item">
+                        <h:link value="" rendered="#{usuario.usuarioLogueado == null}" disabled="true">
+                            <a type="button" class="nav-link" data-toggle="modal" data-target="#loginModal">
+                                Log In
+                            </a>
+                        </h:link>
+                        <h:form rendered="#{usuario.usuarioLogueado != null}">
+                            <h:commandLink styleClass='nav-link' value='Log out' action='#{usuario.cerrarSesion()}'/>
+                        </h:form>
+                    </li>
+                </ul>
+            </ui:insert>
+        </nav>
+        -->
+
+        <section id="content">
+            <div class="container">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </section>
+
+        
+        <h:panelGroup rendered="#{not empty facesContext.messageList}">
+            <div class="toast float-right m-2" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000" style="position: absolute; top: 0; right: 0;">
+                <div class="toast-header">
+                    <strong class="mr-auto">Información</strong>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    <h:messages  infoClass="alert alert-success" errorClass="alert alert-warning" globalOnly="true" 
+                                 showSummary="false" showDetail="true"></h:messages>
+                </div>
+            </div>
+        </h:panelGroup>
+
+        <!--
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Inicio de sesión</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-center">
+                            <h:form id="loginForm">
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    Nombre: 
+                                    <h:inputText value="#{usuario.usuario.nombre}" id="nombre" styleClass="form-control" 
+                                                 required="true" requiredMessage="El nombre de usuario es necesario">
+                                    </h:inputText>
+
+                                    Contraseña: 
+                                    <h:inputSecret value="#{usuario.usuario.pass}" id="pass" class="form-control" 
+                                                   required="true" requiredMessage="La contraseña es necesaria"/>
+                                </h:panelGrid>
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-secondary m-2" data-dismiss="modal">Cerrar</button>
+                                    <h:commandButton value="Log in" action="#{usuario.loguearUsuario()}" styleClass="btn btn-primary my-2"/>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        -->
+        
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <h:outputScript library="js" name="miJs.js"/>
+    </h:body>
+</html>
