@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -19,12 +21,12 @@ public class Fichaje implements Serializable{
     private int id;
     private int idEmpleado;
     private char tipo;
-    private Timestamp fechaHora;
+    private LocalDateTime fechaHora;
 
     public Fichaje() {
     }
 
-    public Fichaje(int id, int idEmpleado, char tipo, Timestamp fechaHora) {
+    public Fichaje(int id, int idEmpleado, char tipo, LocalDateTime fechaHora) {
         this.id = id;
         this.idEmpleado = idEmpleado;
         this.tipo = tipo;
@@ -54,11 +56,11 @@ public class Fichaje implements Serializable{
         this.tipo = tipo;
     }
 
-    public Timestamp getFechaHora() {
+    public LocalDateTime getFechaHora() {
         return fechaHora;
     }
 
-    public void setFechaHora(Timestamp fechaHora) {
+    public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
     }
 
@@ -88,12 +90,12 @@ public class Fichaje implements Serializable{
     }
     
     public String getHora(){
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        return sdf.format(fechaHora);//TODO mejorar tratamiento de las fecha horas a string
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        return dtf.format(fechaHora);
     }
     
     public String getFecha(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return sdf.format(fechaHora);//TODO mejorar tratamiento de las fecha horas a string
+        DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
+        return dtf.format(fechaHora);//TODO mejorar tratamiento de las fecha horas a string
     }
 }

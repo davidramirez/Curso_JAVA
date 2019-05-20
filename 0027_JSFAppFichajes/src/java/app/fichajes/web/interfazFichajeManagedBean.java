@@ -15,6 +15,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -86,9 +87,9 @@ public class interfazFichajeManagedBean implements Serializable {
             Fichaje ultimo = this.gestionarFichajesServicio.obtenerUltimoFichajeEmpleado(this.empleado.getId());
             //si no hay último o el último es de tipo salida, crear de tipo entrada
             if(ultimo == null || ultimo.getTipo() == 'S'){
-                this.fichaje = new Fichaje(0, this.empleado.getId(), 'E', new Timestamp(System.currentTimeMillis()));
+                this.fichaje = new Fichaje(0, this.empleado.getId(), 'E', LocalDateTime.now());
             }else if(ultimo.getTipo() == 'E'){//Si el último es de tipo entrada, crear una salida
-                this.fichaje = new Fichaje(0, this.empleado.getId(), 'S', new Timestamp(System.currentTimeMillis()));
+                this.fichaje = new Fichaje(0, this.empleado.getId(), 'S', LocalDateTime.now());
             }else{
                 //Error??????
             }

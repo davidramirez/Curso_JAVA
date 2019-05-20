@@ -20,6 +20,8 @@ VALUES ('1234','luis','ramirez','11111111A');
 INSERT INTO Empleado(clave, nombre, apellido, dni) 
 VALUES ('4321','tere','perez','12345678A');
 
+insert into empleado (clave, nombre, apellido, dni, admin) values ('12345','david','ramirez','12345678B','true');
+
 INSERT INTO FICHAJE (ID_EMPLEADO, TIPO, FECHAHORA) VALUES (1, 'E', CURRENT_TIMESTAMP);
 
 INSERT INTO FICHAJE (ID_EMPLEADO, TIPO, FECHAHORA) VALUES (1, 'S', CURRENT_TIMESTAMP);

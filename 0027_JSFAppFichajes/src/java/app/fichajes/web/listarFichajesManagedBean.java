@@ -7,6 +7,7 @@ package app.fichajes.web;
 
 import app.fichajes.modelo.Empleado;
 import app.fichajes.modelo.Fichaje;
+import app.fichajes.modelo.InformeFichajeItem;
 import app.fichajes.servicio.GestionarEmpleadosServicio;
 import app.fichajes.servicio.GestionarFichajesServicio;
 import app.fichajes.servicio.excepciones.EmpleadoExcepcion;
@@ -16,8 +17,6 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -33,7 +32,7 @@ public class listarFichajesManagedBean implements Serializable {
 
     private Empleado empleadoSeleccionado;
     private int idEmpleadoSeleccionado;
-    private List<Fichaje> listaFichajesEmpleado;
+    private List<InformeFichajeItem> listaFichajesEmpleado;
 
     @Inject
     private GestionarEmpleadosServicio gestionarEmpleadosServicio;
@@ -58,7 +57,7 @@ public class listarFichajesManagedBean implements Serializable {
         this.idEmpleadoSeleccionado = idEmpleadoSeleccionado;
     }
 
-    public List<Fichaje> getListaFichajesEmpleado() {
+    public List<InformeFichajeItem> getListaFichajesEmpleado() {
         return listaFichajesEmpleado;
     }
 
@@ -100,10 +99,23 @@ public class listarFichajesManagedBean implements Serializable {
         return null;
     }
 
-    private List<Fichaje> listaFichajesEmpleado() {
+//    private List<Fichaje> listaFichajesEmpleado() {
+//        FacesContext fc = FacesContext.getCurrentInstance();
+//        try {
+//            List<Fichaje> lista = this.gestionarFichajesServicio.obtenerFichajesEmpleado(this.idEmpleadoSeleccionado);//.getId());
+//            if (lista.isEmpty()) {
+//                fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El empleado seleccionado no tiene fichajes", "El empleado seleccionado no tiene fichajes"));
+//            }
+//            return lista;
+//        } catch (FichajeExcepcion ex) {
+//            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, ex.getMessage(), ex.getMessage()));
+//        }
+//        return new ArrayList<Fichaje>();//vacia si hay fallo
+//    }
+    private List<InformeFichajeItem> listaFichajesEmpleado() {
         FacesContext fc = FacesContext.getCurrentInstance();
         try {
-            List<Fichaje> lista = this.gestionarFichajesServicio.obtenerFichajesEmpleado(this.idEmpleadoSeleccionado);//.getId());
+            List<InformeFichajeItem> lista = this.gestionarFichajesServicio.informeFichajesEmpleado(this.idEmpleadoSeleccionado);//.getId());
             if (lista.isEmpty()) {
                 fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El empleado seleccionado no tiene fichajes", "El empleado seleccionado no tiene fichajes"));
             }
@@ -111,6 +123,6 @@ public class listarFichajesManagedBean implements Serializable {
         } catch (FichajeExcepcion ex) {
             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, ex.getMessage(), ex.getMessage()));
         }
-        return new ArrayList<Fichaje>();//vacia si hay fallo
+        return new ArrayList<InformeFichajeItem>();//vacia si hay fallo
     }
 }

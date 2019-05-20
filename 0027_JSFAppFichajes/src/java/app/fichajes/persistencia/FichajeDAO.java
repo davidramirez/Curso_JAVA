@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class FichajeDAO implements GenericDAO<Fichaje>, Serializable{
         PreparedStatement pst = conn.prepareStatement(consulta);
         pst.setInt(1, entidad.getIdEmpleado());
         pst.setString(2, entidad.getTipo()+"");
-        pst.setTimestamp(3, entidad.getFechaHora());
+        pst.setTimestamp(3, Timestamp.valueOf(entidad.getFechaHora()));
         pst.executeUpdate();
     }
 
@@ -54,7 +55,7 @@ public class FichajeDAO implements GenericDAO<Fichaje>, Serializable{
         ResultSet rs = pst.executeQuery();
         
         if(rs.next()){
-            return new Fichaje(rs.getInt("ID"), rs.getInt("ID_EMPLEADO"), rs.getString("TIPO").charAt(0), rs.getTimestamp("FECHAHORA"));
+            return new Fichaje(rs.getInt("ID"), rs.getInt("ID_EMPLEADO"), rs.getString("TIPO").charAt(0), rs.getTimestamp("FECHAHORA").toLocalDateTime());
         }
         
         return null;
@@ -72,7 +73,7 @@ public class FichajeDAO implements GenericDAO<Fichaje>, Serializable{
         ResultSet rs = pst.executeQuery();
         
         if(rs.next()){
-            return new Fichaje(rs.getInt("ID"), rs.getInt("ID_EMPLEADO"), rs.getString("TIPO").charAt(0), rs.getTimestamp("FECHAHORA"));
+            return new Fichaje(rs.getInt("ID"), rs.getInt("ID_EMPLEADO"), rs.getString("TIPO").charAt(0), rs.getTimestamp("FECHAHORA").toLocalDateTime());
         }
         
         return null;
@@ -86,7 +87,7 @@ public class FichajeDAO implements GenericDAO<Fichaje>, Serializable{
         
         List<Fichaje> lista = new ArrayList();
         while(rs.next()){
-            lista.add(new Fichaje(rs.getInt("ID"), rs.getInt("ID_EMPLEADO"), rs.getString("TIPO").charAt(0), rs.getTimestamp("FECHAHORA")));
+            lista.add(new Fichaje(rs.getInt("ID"), rs.getInt("ID_EMPLEADO"), rs.getString("TIPO").charAt(0), rs.getTimestamp("FECHAHORA").toLocalDateTime()));
         }
         
         return lista;

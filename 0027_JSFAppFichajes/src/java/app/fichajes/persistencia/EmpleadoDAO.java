@@ -83,4 +83,18 @@ public class EmpleadoDAO implements GenericDAO<Empleado>, Serializable{
         
         return null;
     }
+
+    public Empleado autenticarAdmin(String dni, String clave) throws SQLException {
+        String consulta = "SELECT * FROM Empleado WHERE clave = ? and dni = ? and admin='true'";
+        PreparedStatement pst = conn.prepareStatement(consulta);
+        pst.setString(1, clave);
+        pst.setString(2, dni);
+        ResultSet rs = pst.executeQuery();
+        
+        if(rs.next()){
+            return new Empleado(rs.getInt("ID"), rs.getString("CLAVE"), rs.getString("NOMBRE"), rs.getString("APELLIDO"), rs.getString("DNI"), rs.getBoolean("ADMIN"));
+        }
+        
+        return null;
+    }
 }

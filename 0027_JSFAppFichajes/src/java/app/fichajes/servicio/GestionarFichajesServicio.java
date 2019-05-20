@@ -5,12 +5,17 @@
  */
 package app.fichajes.servicio;
 
+import app.fichajes.modelo.Empleado;
 import app.fichajes.modelo.Fichaje;
+import app.fichajes.modelo.InformeFichajeItem;
+import app.fichajes.persistencia.EmpleadoDAO;
 import app.fichajes.persistencia.FichajeDAO;
 import app.fichajes.servicio.excepciones.FichajeExcepcion;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,11 +34,13 @@ public class GestionarFichajesServicio implements Serializable{
 
     private Connection conn;
     private FichajeDAO fichajeDAO;
+    private EmpleadoDAO empleadoDAO;
 
     public GestionarFichajesServicio() {
         try {
             this.conn = DBServicio.getDBServicio().obtenerConexionBD();
             this.fichajeDAO = new FichajeDAO(conn);
+            this.empleadoDAO = new EmpleadoDAO(conn);
         } catch (SQLException ex) {
             log.log(Level.SEVERE, "Error al conectar con la base de datos", ex);
         }
@@ -68,6 +75,33 @@ public class GestionarFichajesServicio implements Serializable{
         } catch (SQLException ex) {
             log.severe("Al obtener los fichajes de un empleado. Error de BD. "+ex.getMessage());
             throw new FichajeExcepcion("No se pudieron obtener los fichajes del empleado");
+        }
+    }
+    
+    public List<InformeFichajeItem> informeFichajesEmpleado(int idEmpleado) throws FichajeExcepcion{
+        try {
+            Empleado e = this.empleadoDAO.buscarPorId(idEmpleado);
+            List<Fichaje> list = this.fichajeDAO.obtenerFichajesEmpleado(idEmpleado);
+            this.conn.commit();
+            
+            List<InformeFichajeItem> informe = new LinkedList();
+            Iterator<Fichaje> it = list.iterator();
+            
+            while(it.hasNext()){
+                Fichaje fichEntrada = it.next();
+                
+                if(it.hasNext()){
+                    Fichaje fichSalida = it.next();
+                    informe.add(new InformeFichajeItem(fichEntrada.getFechaHora(), fichSalida.getFechaHora(), e));
+                }else{
+                    informe.add(new InformeFichajeItem(fichEntrada.getFechaHora(), null, e));
+                }
+            }
+            
+            return informe;
+        } catch (SQLException ex) {
+            log.severe("Al obtener el informe de fichajes de un empleado. Error de BD. "+ex.getMessage());
+            throw new FichajeExcepcion("No se pudo obtener el informe de fichajes del empleado");
         }
     }
     
