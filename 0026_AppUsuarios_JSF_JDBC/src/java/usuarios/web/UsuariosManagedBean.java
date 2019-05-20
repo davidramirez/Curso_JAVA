@@ -6,6 +6,7 @@
 package usuarios.web;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import usuarios.modelo.Usuario;
+import usuarios.servicios.EjemploServicio;
 import usuarios.servicios.GestionarUsuariosServicio;
 import usuarios.servicios.excepciones.UsuarioException;
 
@@ -151,4 +153,21 @@ public class UsuariosManagedBean implements Serializable {
         return null;
     }
 
+    
+    //PRUEBA POOL
+    @Inject
+    private EjemploServicio ejemploServicio;
+
+    public void setEjemploServicio(EjemploServicio ejemploServicio) {
+        this.ejemploServicio = ejemploServicio;
+    }
+    
+    public String botonHazAlgo(){
+        try {
+            ejemploServicio.hazAlgo();
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuariosManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
