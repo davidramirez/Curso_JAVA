@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Prueba AJAX</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script>
+                function llamadaAjax(){
+                    //$.get("resultado", mostrarResultado);
+                    var numeroAAdivinar = $("#numero").val();
+                    console.log(numeroAAdivinar + "el numero que mando");
+                    $.post("http://localhost:8080/adivina-ajax/adivina", "numero="+numeroAAdivinar, mostrarResultado,"text");
+                }
+                
+                function mostrarResultado(data, status){
+                    $("#resultado").html(data);
+                }
+                
+                function ponerNumero(data, status){
+                    $("#numero").html(data);
+                }
+                
+            $(document).ready(function () {
+                $("#numero").change(llamadaAjax);
+                $.get("http://localhost:8080/adivina-ajax/generaNumeroAleatorio", ponerNumero);
+            });
+        </script>
+    </head>
+    <body>
+
+        
+        Inroduce un número
+        <input id="numero" type="number" name="numero" size="20" onchange="llamadaAjax();"/>
+
+        <span id="resultado">
+            No
+        </span>
+
+
+    </body>
+</html>

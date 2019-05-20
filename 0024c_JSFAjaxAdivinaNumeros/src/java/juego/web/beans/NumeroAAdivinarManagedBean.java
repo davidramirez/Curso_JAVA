@@ -6,15 +6,16 @@
 package juego.web.beans;
 
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Random;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author david
  */
-@Named(value = "numeroAAdivinar")
+@ManagedBean(name = "numeroAAdivinar")
 @SessionScoped
 public class NumeroAAdivinarManagedBean implements Serializable {
 

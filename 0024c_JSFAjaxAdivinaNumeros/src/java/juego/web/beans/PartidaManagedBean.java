@@ -5,21 +5,27 @@
  */
 package juego.web.beans;
 
+import java.io.Serializable;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 /**
  *
  * @author david
  */
-@Named(value = "partida")
-@RequestScoped
-public class PartidaManagedBean {
+@ManagedBean(name = "partida")
+@ViewScoped
+public class PartidaManagedBean implements Serializable{
     
     private int numeroEnvioParaAdivinar;
     
-    @Inject
+    private String resultado ="";
+    
+    @ManagedProperty(value = "#{numeroAAdivinar}")
     private NumeroAAdivinarManagedBean numeroAAdivinar;
 
     /**
@@ -33,25 +39,34 @@ public class PartidaManagedBean {
     }
 
     public void setNumeroEnvioParaAdivinar(int numeroEnvioParaAdivinar) {
+        System.out.println("Has entrado en setnumeroenvioaadivinar");
         this.numeroEnvioParaAdivinar = numeroEnvioParaAdivinar;
+        this.adivinar();//Para ejecutar la "llamada ajax" sin hacer un listener
     }
 
     public int getNumeroEnvioParaAdivinar() {
         return numeroEnvioParaAdivinar;
+    }
+
+    public String getResultado() {
+        System.out.println("Has entrado en get resultado");
+        return resultado;
     }
     
     public String iniciarJuego(){
         this.numeroEnvioParaAdivinar = 0;
         this.numeroAAdivinar.generaNumerro();
         
+        this.resultado = "";//no requerido, ámbito de request
+        
         return null;
     }
     
     public String adivinar(){
         if(this.numeroEnvioParaAdivinar == this.numeroAAdivinar.getNumero()){
-            System.out.println("Lo has adivinado!");
+            resultado = "Lo has adivinado!";
         }else{
-            System.out.println("Vuelve a intentarlo");
+            resultado = "Vuelve a intentarlo";
         }
         return null;
     }
