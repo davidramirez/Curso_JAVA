@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="../WEB-INF/plantillas/plantillaPrincipal.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        Gestión - Fichajes
+    </ui:define>
+
+    <ui:define name="top">
+        <i class="fas fa-user-ninja"></i> Gestión - Listado de fichajes
+    </ui:define>
+    <ui:define name="content">
+        <div class="row align-items-center">
+            <div class="col-md-9 col-12">
+                <h3>Fichajes del empleado: </h3>
+            </div>
+            <div class="col-md-3">
+                <h:form>
+                    <h:selectOneMenu value="#{listarFichajes.idEmpleadoSeleccionado}" id="empleado" styleClass="form-control" 
+                                     required="true" requiredMessage="Seleccione un empleado">
+                        <f:selectItems value="#{listarFichajes.listaEmpleadosPorNombreApellido}"/>
+                    </h:selectOneMenu>
+                    <h:message for="empleado" styleClass="alert alert-warning m-2"/>
+                    <h:commandButton styleClass="btn btn-primary btn-block mt-1" value="Mostrar" action="#{listarFichajes.mostrarFichajesEmpleado()}"/>
+                </h:form>
+            </div>
+        </div>
+        <div class="row">
+            <h:dataTable value="#{listarFichajes.listaFichajesEmpleado}" var="f" 
+                         rendered="#{listarFichajes.listaFichajesEmpleado != null}" 
+                         cellpadding="10" styleClass="table table-striped table-hover">
+                <h:column>    				
+                    <f:facet name = "header">Fecha</f:facet>    				
+                        #{f.fecha} 				
+                </h:column>
+                <h:column>    				
+                    <f:facet name = "header">Hora</f:facet>    				
+                        #{f.hora} 				
+                </h:column>
+                <h:column>    				
+                    <f:facet name = "header">Tipo</f:facet>    				
+                        #{f.tipoEnString} 				
+                </h:column>
+                <h:column>    				
+                    <f:facet name = "header">Nombre</f:facet>    				
+                        #{listarFichajes.empleadoSeleccionado.nombre}			
+                </h:column>
+                <h:column>    				
+                    <f:facet name = "header">Apellido</f:facet>    				
+                        #{listarFichajes.empleadoSeleccionado.apellido}
+                </h:column>
+            </h:dataTable>
+            <h:panelGroup styleClass="alert alert-warning" rendered="#{(listarFichajes.listaFichajesEmpleado != null) and (empty listarFichajes.listaFichajesEmpleado)}">
+                El empleado seleccionado no tiene fichajes.
+            </h:panelGroup>
+        </div>
+    </ui:define>
+</ui:composition>

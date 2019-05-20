@@ -14,9 +14,7 @@ import app.fichajes.servicio.excepciones.FichajeExcepcion;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Timestamp;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -79,18 +77,18 @@ public class interfazFichajeManagedBean implements Serializable {
             //Buscar al empleado y tratar si no se encuentra
             this.empleado = this.gestionarEmpleadosServicio.buscarEmpleadoPorClave(claveEmpleado);
             
-            if(this.empleado == null){
+            if(this.empleado == null){//TODO meter al servicio
                 fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Clave incorrecta", "La clave dada no corresponde a ningún empleado"));
                 return null;
             }
-            
+            //TODO meter al servicio
             //Buscar el último fichaje del empleado
             Fichaje ultimo = this.gestionarFichajesServicio.obtenerUltimoFichajeEmpleado(this.empleado.getId());
             //si no hay último o el último es de tipo salida, crear de tipo entrada
             if(ultimo == null || ultimo.getTipo() == 'S'){
-                this.fichaje = new Fichaje(0, this.empleado.getId(), 'E', new Date(System.currentTimeMillis()));
+                this.fichaje = new Fichaje(0, this.empleado.getId(), 'E', new Timestamp(System.currentTimeMillis()));
             }else if(ultimo.getTipo() == 'E'){//Si el último es de tipo entrada, crear una salida
-                this.fichaje = new Fichaje(0, this.empleado.getId(), 'S', new Date(System.currentTimeMillis()));
+                this.fichaje = new Fichaje(0, this.empleado.getId(), 'S', new Timestamp(System.currentTimeMillis()));
             }else{
                 //Error??????
             }

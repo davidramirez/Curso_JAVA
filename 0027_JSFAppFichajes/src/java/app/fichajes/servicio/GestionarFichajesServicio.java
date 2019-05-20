@@ -11,6 +11,7 @@ import app.fichajes.servicio.excepciones.FichajeExcepcion;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PreDestroy;
@@ -40,7 +41,9 @@ public class GestionarFichajesServicio implements Serializable{
     
     public Fichaje obtenerUltimoFichajeEmpleado(int idEmpleado) throws FichajeExcepcion{
         try {
-            return this.fichajeDAO.obtenerUltimoFichajeEmpleado(idEmpleado);
+            Fichaje f = this.fichajeDAO.obtenerUltimoFichajeEmpleado(idEmpleado);
+            this.conn.commit();
+            return f;
         } catch (SQLException ex) {
             log.severe("Al obtener el último fichaje de un empleado. Error de BD. "+ex.getMessage());
             throw new FichajeExcepcion("No se pudo obtener el último fichaje del empleado con ID " +idEmpleado);
@@ -54,6 +57,17 @@ public class GestionarFichajesServicio implements Serializable{
         } catch (SQLException ex) {
             log.severe("Al guardar un nuevo fichaje de un empleado. Error de BD. "+ex.getMessage());
             throw new FichajeExcepcion("No se pudo guardar el fichaje");
+        }
+    }
+    
+    public List<Fichaje> obtenerFichajesEmpleado(int idEmpleado) throws FichajeExcepcion{
+        try {
+            List<Fichaje> list = this.fichajeDAO.obtenerFichajesEmpleado(idEmpleado);
+            this.conn.commit();
+            return list;
+        } catch (SQLException ex) {
+            log.severe("Al obtener los fichajes de un empleado. Error de BD. "+ex.getMessage());
+            throw new FichajeExcepcion("No se pudieron obtener los fichajes del empleado");
         }
     }
     

@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,12 +44,31 @@ public class EmpleadoDAO implements GenericDAO<Empleado>, Serializable{
 
     @Override
     public Empleado buscarPorId(int id) throws SQLException {
+        String consulta = "SELECT * FROM Empleado WHERE id = ?";
+        PreparedStatement pst = conn.prepareStatement(consulta);
+        pst.setInt(1, id);
+        ResultSet rs = pst.executeQuery();
+        
+        if(rs.next()){
+            return new Empleado(rs.getInt("ID"), rs.getString("CLAVE"), rs.getString("NOMBRE"), rs.getString("APELLIDO"), rs.getString("DNI"), rs.getBoolean("ADMIN"));
+        }
+        
         return null;
     }
 
     @Override
     public List<Empleado> obtenerTodos() throws SQLException {
-        return null;
+        String consulta = "SELECT * FROM Empleado";
+        Statement st = conn.createStatement();
+        
+        ResultSet rs = st.executeQuery(consulta);
+        
+        List<Empleado> lista = new ArrayList<Empleado>();
+        while(rs.next()){
+            lista.add(new Empleado(rs.getInt("ID"), rs.getString("CLAVE"), rs.getString("NOMBRE"), rs.getString("APELLIDO"), rs.getString("DNI"), rs.getBoolean("ADMIN")));
+        }
+        
+        return lista;
     }
     
     public Empleado buscarPorClave(String clave) throws SQLException{

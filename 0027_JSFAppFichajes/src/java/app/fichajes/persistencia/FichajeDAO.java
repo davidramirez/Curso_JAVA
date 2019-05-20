@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class FichajeDAO implements GenericDAO<Fichaje>, Serializable{
         PreparedStatement pst = conn.prepareStatement(consulta);
         pst.setInt(1, entidad.getIdEmpleado());
         pst.setString(2, entidad.getTipo()+"");
-        pst.setDate(3, entidad.getFechaHora());
+        pst.setTimestamp(3, entidad.getFechaHora());
         pst.executeUpdate();
     }
 
@@ -53,7 +54,7 @@ public class FichajeDAO implements GenericDAO<Fichaje>, Serializable{
         ResultSet rs = pst.executeQuery();
         
         if(rs.next()){
-            return new Fichaje(rs.getInt("ID"), rs.getInt("ID_EMPLEADO"), rs.getString("TIPO").charAt(0), rs.getDate("FECHAHORA"));
+            return new Fichaje(rs.getInt("ID"), rs.getInt("ID_EMPLEADO"), rs.getString("TIPO").charAt(0), rs.getTimestamp("FECHAHORA"));
         }
         
         return null;
@@ -71,10 +72,24 @@ public class FichajeDAO implements GenericDAO<Fichaje>, Serializable{
         ResultSet rs = pst.executeQuery();
         
         if(rs.next()){
-            return new Fichaje(rs.getInt("ID"), rs.getInt("ID_EMPLEADO"), rs.getString("TIPO").charAt(0), rs.getDate("FECHAHORA"));
+            return new Fichaje(rs.getInt("ID"), rs.getInt("ID_EMPLEADO"), rs.getString("TIPO").charAt(0), rs.getTimestamp("FECHAHORA"));
         }
         
         return null;
+    }
+    
+    public List<Fichaje> obtenerFichajesEmpleado(int idEmpleado) throws SQLException{
+        String consulta = "SELECT * FROM fichaje WHERE id_Empleado = ?";
+        PreparedStatement pst = conn.prepareStatement(consulta);
+        pst.setInt(1, idEmpleado);
+        ResultSet rs = pst.executeQuery();
+        
+        List<Fichaje> lista = new ArrayList();
+        while(rs.next()){
+            lista.add(new Fichaje(rs.getInt("ID"), rs.getInt("ID_EMPLEADO"), rs.getString("TIPO").charAt(0), rs.getTimestamp("FECHAHORA")));
+        }
+        
+        return lista;
     }
     
 }

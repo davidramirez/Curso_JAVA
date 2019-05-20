@@ -7,6 +7,8 @@ package app.fichajes.modelo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -17,12 +19,12 @@ public class Fichaje implements Serializable{
     private int id;
     private int idEmpleado;
     private char tipo;
-    private Date fechaHora;
+    private Timestamp fechaHora;
 
     public Fichaje() {
     }
 
-    public Fichaje(int id, int idEmpleado, char tipo, Date fechaHora) {
+    public Fichaje(int id, int idEmpleado, char tipo, Timestamp fechaHora) {
         this.id = id;
         this.idEmpleado = idEmpleado;
         this.tipo = tipo;
@@ -52,11 +54,11 @@ public class Fichaje implements Serializable{
         this.tipo = tipo;
     }
 
-    public Date getFechaHora() {
+    public Timestamp getFechaHora() {
         return fechaHora;
     }
 
-    public void setFechaHora(Date fechaHora) {
+    public void setFechaHora(Timestamp fechaHora) {
         this.fechaHora = fechaHora;
     }
 
@@ -85,5 +87,13 @@ public class Fichaje implements Serializable{
         return true;
     }
     
+    public String getHora(){
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(fechaHora);//TODO mejorar tratamiento de las fecha horas a string
+    }
     
+    public String getFecha(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(fechaHora);//TODO mejorar tratamiento de las fecha horas a string
+    }
 }

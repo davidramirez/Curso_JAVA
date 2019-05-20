@@ -7,13 +7,26 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
-        <h:form id="formEmpleado">
-            <h:outputLabel value="Clave:"/>
-            <h:inputSecret id="clave" value="#{interfazFichaje.claveEmpleado}" required="true" validatorMessage="Introduzca su clave">
-            </h:inputSecret>
-            <h:message for="clave"/>
-            <h:commandButton styleClass="btn btn-primary mx-1" value="Fichar" action="#{interfazFichaje.autenticarYPrepararFichaje()}"/>
-        </h:form>
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <h:form id="formEmpleado" styleClass="form-group">
+                    <div class="form-group">
+                        <label for="clave">Clave:</label>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-key"></i></div>
+                        </div>
+                        <h:inputSecret id="clave" styleClass="form-control" value="#{interfazFichaje.claveEmpleado}" required="true" validatorMessage="Introduzca su clave">
+                        </h:inputSecret>
+                    </div>
+                    <div class="form-group">
+                        <h:message for="clave" errorClass="alert alert-warning"/>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton styleClass="btn btn-primary btn-block mx-1" value="Fichar" action="#{interfazFichaje.autenticarYPrepararFichaje()}"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
 
         <!-- Modal -->
         <h:panelGroup rendered="#{interfazFichaje.modoConfirmar}">
@@ -30,15 +43,18 @@
                             <div class="d-flex justify-content-center">
                                 <p>Se realizará el fichaje de #{interfazFichaje.fichaje.tipoEnString} 
                                     para el empleado con DNI #{interfazFichaje.empleado.dni} 
-                                    a las #{interfazFichaje.fichaje.fechaHora.toLocalDate()}.
+                                    a las #{interfazFichaje.fichaje.hora}
+                                    del #{interfazFichaje.fichaje.fecha}.
                                 </p>
-                                <h:form id="loginForm">
-                                    <div class="d-flex justify-content-end">
-                                        <button type="button" class="btn btn-secondary m-2" data-dismiss="modal">Cerrar</button>
-                                        <h:commandButton value="Log in" action="#{interfazFichaje.confirmarFichaje()}" styleClass="btn btn-primary my-2"/>
-                                    </div>
-                                </h:form>
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <h:form id="loginForm">
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-danger m-2" data-dismiss="modal">Cancelar</button>
+                                    <h:commandButton value="Confirmar" action="#{interfazFichaje.confirmarFichaje()}" styleClass="btn btn-primary my-2"/>
+                                </div>
+                            </h:form>
                         </div>
                     </div>
                 </div>
