@@ -20,19 +20,19 @@
             <h:dataTable value = "#{accionista.listaAccionesAccionista}" var = "accion" cellpadding="10" styleClass="table table-striped table-hover">
                 <h:column>
                     <f:facet name = "header">#{msg.empresa}</f:facet>
-                        #{accion.nombreAccion}
+                    #{accion.accion.nombre}
                 </h:column>
 
                 <h:column>
                     <f:facet name = "header">#{msg.cantidad}</f:facet>
                         #{accion.cantidad}
                 </h:column>
-                
+
                 <h:column>
                     <f:facet name = "header">#{msg.valorMedioCompra}</f:facet>
                         #{accion.valorMedioCompra}
                 </h:column>
-                
+
                 <h:column>
                     <f:facet name = "header">#{msg.valorActual}</f:facet>
                         #{accion.valorActualAccion}

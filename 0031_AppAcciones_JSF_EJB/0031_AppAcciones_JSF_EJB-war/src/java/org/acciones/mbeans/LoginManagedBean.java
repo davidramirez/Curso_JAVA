@@ -74,7 +74,7 @@ public class LoginManagedBean {
             sesionManagedBean.setUsuario(loginServiceLocal.autenticarAccionista(usuario, clave));
             return "misacciones";
         } catch (BDException ex) {
-            fc.addMessage(null,MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_FATAL, null));// new FacesMessage(FacesMessage.SEVERITY_FATAL, bundle.getString(ex.getMesssageKey()), bundle.getString(ex.getMesssageKey())));
+            fc.addMessage(null, MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_FATAL, null));// new FacesMessage(FacesMessage.SEVERITY_FATAL, bundle.getString(ex.getMesssageKey()), bundle.getString(ex.getMesssageKey())));
             return null;
         } catch (AccionistaException ex) {
             fc.addMessage(null, MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_ERROR, null));//new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString(ex.getMesssageKey()), bundle.getString(ex.getMesssageKey())));

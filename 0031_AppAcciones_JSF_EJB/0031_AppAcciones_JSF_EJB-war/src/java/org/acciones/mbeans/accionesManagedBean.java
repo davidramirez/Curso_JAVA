@@ -5,10 +5,10 @@
  */
 package org.acciones.mbeans;
 
+import com.sun.faces.util.MessageFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -71,20 +71,14 @@ public class accionesManagedBean {
 
     public String btnComprarAccion(Accion accion) {
         FacesContext fc = FacesContext.getCurrentInstance();
-        ResourceBundle bundle = fc.getApplication().evaluateExpressionGet(fc, "#{msg}", ResourceBundle.class);
 
         try {
             double valorCompra = accionesServiceLocal.comprarAccion(accion.getId(), sesion.getUsuario().getId(), this.cantidad);
-            String msg = bundle.getString("accCompraOk");
-            msg = msg.replace("{0}", this.cantidad + "");
-            msg = msg.replace("{1}", accion.getNombre());
-            msg = msg.replace("{2}", valorCompra + "");
-            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg));
+            fc.addMessage(null, MessageFactory.getMessage(fc, "accCompraOk", FacesMessage.SEVERITY_INFO, new Object[]{this.cantidad+"", accion.getNombre(), valorCompra+""}));
         } catch (BDException ex) {
-            String msg = bundle.getString(ex.getMesssageKey()).replace("{0}", accion.getId() + "");
-            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, msg, msg));
+            fc.addMessage(null, MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_FATAL, new Object[]{accion.getId()}));
         } catch (AccionException ex) {
-            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString(ex.getMesssageKey()), bundle.getString(ex.getMesssageKey())));
+            fc.addMessage(null, MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_ERROR, new Object[]{accion.getId()}));
         }
 
         this.cantidad = 0;

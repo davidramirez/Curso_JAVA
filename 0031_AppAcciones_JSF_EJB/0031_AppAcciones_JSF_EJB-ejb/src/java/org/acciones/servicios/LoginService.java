@@ -6,15 +6,11 @@
 package org.acciones.servicios;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.sql.DataSource;
-import org.acciones.dao.AccionistasDAOLocal;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.acciones.modelo.Accionista;
 import org.acciones.servicios.excepciones.AccionistaException;
 import org.acciones.servicios.excepciones.BDException;
@@ -28,42 +24,25 @@ public class LoginService implements LoginServiceLocal {
 
     private static Logger log = Logger.getLogger("LoginService");
 
-    @Resource(name = "java:app/jdbc/accionesdb")
-    private DataSource ds;
-
-    @EJB
-    private AccionistasDAOLocal dao;
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public Accionista autenticarAccionista(String nombre, String clave) throws BDException, AccionistaException {
-        Connection conn = null;
         try {
-            conn = ds.getConnection();
-//            ResultSet r = conn.getMetaData().getTables(null, null, "%", null);
-//
-//            while (r.next()) {
-//                System.out.println(r.getString(3) + " " + r.getString(4));
-//            }
-
-            Accionista a = dao.autenticarAccionista(conn, nombre, clave);
-            conn.close();
+            Query q = em.createNamedQuery("Accionista.findByNombreClave");
+            q.setParameter("nombre", nombre);
+            q.setParameter("clave", clave);
+            Accionista a = (Accionista) q.getSingleResult();
             if (a != null) {
                 return a;
             } else {
                 throw new AccionistaException("El nombre o la clave son incorrectos", "loginIncorrecto");
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             log.severe("Al autenticar un accionista. Error de BD. " + ex.getMessage());
+            ex.printStackTrace();
             throw new BDException("Error al realizar la autenticación. Contacte con el administrador", "loginBDError");
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    log.severe("Al autenticar un accionista. Error de BD. " + ex.getMessage());
-                    throw new BDException("Error al realizar la autenticación. Contacte con el administrador", "loginBDError");
-                }
-            }
         }
     }
 }

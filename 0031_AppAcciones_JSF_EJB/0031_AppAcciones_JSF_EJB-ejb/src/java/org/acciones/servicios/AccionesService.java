@@ -5,16 +5,12 @@
  */
 package org.acciones.servicios;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.sql.DataSource;
-import org.acciones.dao.AccionesDAOLocal;
-import org.acciones.dao.AccionesPorAccionistaDAOLocal;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.acciones.modelo.Accion;
 import org.acciones.modelo.AccionDeAccionista;
 import org.acciones.servicios.excepciones.AccionException;
@@ -29,26 +25,18 @@ public class AccionesService implements AccionesServiceLocal {
 
     private static Logger log = Logger.getLogger("AccionesService");
 
-    @Resource(name = "java:app/jdbc/accionesderbydb")
-    //@Resource(name = "java:app/env/accionesclassdb")
-    private DataSource ds;
-
-    @EJB
-    private AccionesDAOLocal dao;
-    @EJB
-    private AccionesPorAccionistaDAOLocal daoAccionesAccionista;
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public List<Accion> listarAcciones() throws BDException {
         try {
-            Connection conn = ds.getConnection();
-            List<Accion> l = dao.listarAcciones(conn);
-            conn.close();
+            List<Accion> l = em.createNamedQuery("Accion.findAll").getResultList();
             return l;
 
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             log.severe("Al listar las acciones disponibles. Error de BD. " + ex.getMessage());
-            //ex.printStackTrace();
+            ex.printStackTrace();
             throw new BDException("Error al listar las acciones. Contacte con el administrador", "accionesListarBDError");
         }
     }
@@ -56,42 +44,62 @@ public class AccionesService implements AccionesServiceLocal {
     @Override
     public List<AccionDeAccionista> listarAccionesAccionista(int idAccionista) throws BDException {
         try {
-            Connection conn = ds.getConnection();
-            List<AccionDeAccionista> l = daoAccionesAccionista.getAccionesAccionista(conn, idAccionista);
-            conn.close();
+            Query q = em.createNamedQuery("Accion.findAccionesByAccionista");
+            q.setParameter("idAccionista", idAccionista);
+            List<AccionDeAccionista> l = q.getResultList();
+            //System.out.println("Lista de acciones del accionista obtenida \n " + l);
             return l;
 
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             log.severe("Al listar las acciones del accionista. Error de BD. " + ex.getMessage());
-            //ex.printStackTrace();
+            ex.printStackTrace();
             throw new BDException("Error al listar las acciones del accionista. Contacte con el administrador", "AccionesAccionistaListarBDError");
         }
     }
 
     /**
-     * 
+     *
      * @param idAccion
      * @param idAccionista
      * @param cantidad
      * @return el coste total de la compra de las acciones
-     * @throws BDException 
-     * @throws AccionException 
+     * @throws BDException
+     * @throws AccionException
      */
     @Override
     public double comprarAccion(int idAccion, int idAccionista, int cantidad) throws BDException, AccionException {
         try {
             double valorTotal = 0.0;
-            Connection conn = ds.getConnection();
-            conn.setAutoCommit(false);
-            valorTotal = dao.consultarPrecioAccion(conn, idAccion) * cantidad;
-            daoAccionesAccionista.guardarCompra(conn, idAccion, idAccionista, cantidad, valorTotal);
-            conn.commit();
-            conn.close();
+            //Buscar la accion
+            Accion a = em.find(Accion.class, idAccion);
+
+            if (a == null) {
+                throw new AccionException("No existe la acción con id " + idAccion, "AccionConsultaPrecioError");
+            }
+
+            //ValorTotal a devolver
+            valorTotal = a.getValor() * cantidad;
+            //buscar AccionDeAccionista con idAccion idAccionista
+            Query q = em.createNamedQuery("AccionDeAccionista.findByIdAccionIdAccionista");
+            q.setParameter("idAccionista", idAccionista);
+            q.setParameter("idAccion", idAccion);
+            AccionDeAccionista compra = (AccionDeAccionista) q.getSingleResult();
+            //Si existe, actualizarlo
+            if (compra != null) {
+                //sumar el valorTotal y la cantidad de la compra
+                compra.setCantidad(compra.getCantidad() + cantidad);
+                compra.setValorCompraTotal(compra.getValorCompraTotal() + valorTotal);
+                em.merge(compra);
+            } else {
+                //Si no, crear uno nuevo
+                compra = new AccionDeAccionista(idAccion, idAccionista, cantidad, valorTotal);
+                em.persist(compra);
+            }
             return valorTotal;
 
-        } catch (SQLException ex) {
-            log.severe("Al comprar accion "+ idAccion +" el accionista "+ idAccionista + " . Error de BD. " + ex.getMessage());
-            //ex.printStackTrace();
+        } catch (Exception ex) {
+            log.severe("Al comprar accion " + idAccion + " el accionista " + idAccionista + " . Error de BD. " + ex.getMessage());
+            ex.printStackTrace();
             throw new BDException("Error al comprar acciones. Contacte con el administrador", "AccionesComprarBDError");
         }
     }
