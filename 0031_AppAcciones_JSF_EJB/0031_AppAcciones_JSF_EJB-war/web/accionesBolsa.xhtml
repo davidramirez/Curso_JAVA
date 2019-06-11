@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/plantillas/plantillaPrincipal.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j">
+
+    <ui:define name="title">
+        #{msg.accBoltitle}
+    </ui:define>
+
+    <ui:define name="top">
+        #{msg.accBoltitle}
+    </ui:define>
+
+    <ui:define name="content">
+        <h2>#{msg.accBolLista}</h2>
+        <h:form>
+            <a4j:poll id="poll" interval="30000" render="lista"/>
+            <div class="table-responsive-md">
+                <h:dataTable id="lista" value="#{acciones.listaAcciones}" var = "accion" cellpadding="10" styleClass="table table-striped table-hover">
+                    <h:column>
+                        <f:facet name = "header">#{msg.empresa}</f:facet>
+                            #{accion.nombre}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name = "header">#{msg.valorActual}</f:facet>
+                            #{accion.valor}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name = "header">#{msg.accion}</f:facet>
+                        <h:form styleClass="form-inline" rendered="#{sesion.usuario != null}">
+                            <h:inputText id="cantidad" value="#{acciones.cantidad}" styleClass="form-control" required="true" requiredMessage="#{msg.accBolErrorCantidad}">
+                                <f:validateDoubleRange minimum="0" />
+                            </h:inputText>
+                            <h:commandButton styleClass="btn btn-primary mx-1" value="#{msg.accBolComprar}" action="#{acciones.btnComprarAccion(accion)}"/>
+                            <h:message for="cantidad" />
+                        </h:form>
+                        <h:outputLabel rendered="#{sesion.usuario == null}">#{msg.accBolNoUsuario}</h:outputLabel>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

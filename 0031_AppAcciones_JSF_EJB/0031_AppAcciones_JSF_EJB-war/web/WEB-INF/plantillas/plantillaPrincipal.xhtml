@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view locale="#{sesion.idioma}">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
+
+            <h:outputStylesheet library="css" name="flag-icon.css"/>
+            <title><ui:insert name="title">#{msg.nombreApp}</ui:insert></title>
+        </h:head>
+
+        <h:body>
+
+            <div id="top" class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <h1 class="text-center">
+                            <ui:insert name="top">#{msg.nombreApp}</ui:insert>
+                            Idioma: #{sesion.idioma}
+                        </h1>
+                    </div>
+                    <div class="col-1">
+                        <h:form>
+                            <h:commandButton styleClass="btn btn-outline-primary" value="ES" action="#{sesion.ponerIdioma('es')}">
+                                <span class="flag-icon flag-icon-es"></span>
+                            </h:commandButton>
+                            <h:commandButton styleClass="btn btn-outline-primary" value="EN" action="#{sesion.ponerIdioma('en')}">
+                                <span class="flag-icon flag-icon-gb"></span>
+                            </h:commandButton>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+                <a class="navbar-brand" href="#"><i class="fas fa-balance-scale"></i> #{msg.nombreApp}</a>
+                <button class="navbar-toggler" type="button" data-target="#mibarra" data-toggle="collapse"><span class="navbar-toggler-icon"></span></button>
+                <div id="mibarra" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><h:link styleClass="nav-link" outcome="listaacciones">#{msg.menuListaAcciones}</h:link></li>
+                        <li class="nav-item"><h:link styleClass="nav-link" outcome="misacciones">#{msg.menuListaMisAcciones}</h:link></li>
+                    </ul>
+                    <h:form styleClass="form-inline" rendered="#{sesion.usuario == null}">
+                        <h:link value="#{msg.login}" outcome="login" styleClass="btn btn-outline-primary bg-white align-middle mx-1"></h:link>
+                    </h:form>
+                    <h:form styleClass="form-inline" rendered="#{sesion.usuario != null}">
+                        <h4 class="align-middle"><i class="fas fa-user-ninja"></i> #{sesion.usuario.nombre}</h4>
+                        <h:commandButton value="#{msg.logout}" action="#{sesion.logOut()}" styleClass="btn btn-outline-primary bg-white align-middle mx-1" />
+                    </h:form>
+                </div>
+            </nav>
+
+
+            <section id="content">
+                <div class="container">
+                    <ui:insert name="content">Content</ui:insert>
+                </div>
+            </section>
+
+            <h:panelGroup rendered="#{not empty facesContext.messageList}">
+                <div class="toast float-right m-2" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000" style="position: absolute; top: 0; right: 0;">
+                    <div class="toast-header">
+                        <strong class="mr-auto">#{msg.informacion}</strong>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                        <h:messages  infoClass="alert alert-success" errorClass="alert alert-warning" fatalClass="alert alert-danger" globalOnly="true"></h:messages>
+                    </div>
+                </div>
+            </h:panelGroup>
+
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            <h:outputScript library="js" name="miJs.js"/>
+        </h:body>
+    </f:view>
+</html>

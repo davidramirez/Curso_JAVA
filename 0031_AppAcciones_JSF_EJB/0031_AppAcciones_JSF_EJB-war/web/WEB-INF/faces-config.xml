@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <navigation-rule>
+        <from-view-id>/*</from-view-id>
+        <navigation-case>
+            <from-outcome>listaacciones</from-outcome>
+            <to-view-id>/accionesBolsa.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>misacciones</from-outcome>
+            <to-view-id>/user/misAcciones.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <lifecycle>
+        <phase-listener>
+            org.acciones.web.filtros.UsuarioLogueadoPhaseListener
+        </phase-listener>
+    </lifecycle>
+    
+    <application>
+        <locale-config>
+            <default-locale>es</default-locale>
+            <supported-locale>es</supported-locale>
+            <supported-locale>en</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>org.acciones.recursos.mensajes</base-name>
+            <var>msg</var>
+        </resource-bundle>
+        <message-bundle>
+            org.acciones.recursos.AppMessages
+        </message-bundle>
+    </application>
+</faces-config>

@@ -1,0 +1,58 @@
+create table ACCIONES(
+	id integer primary key NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+	nombre varchar(25) NOT NULL,
+	valor float not null);
+
+create table ACCIONISTAS(
+	id integer primary key NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+	nombre varchar(25) NOT NULL UNIQUE,
+	clave varchar(25) not null
+);
+
+create table ACCIONESPORACCIONISTA(
+	id_accion integer not null references ACCIONES(id),
+	id_accionista integer not null references ACCIONISTAS(id),
+	cantidad integer,
+	valor_compra_total float,
+        primary key (id_accion, id_accionista)
+);
+
+insert into ACCIONES (nombre, valor) values
+('Telefonica', 20.0), ('Iberdrola',22.55),
+('Santander', 16.99), ('BBVA', 15.86),
+('C2B', 8.99);
+
+insert into ACCIONISTAS (nombre, clave) values
+('david', '1234'), ('ana', '1234'),
+('pedro', '1234');
+
+
+*********************MYSQL*********************
+create table ACCIONES(
+	id integer primary key NOT NULL AUTO_INCREMENT,
+	nombre varchar(25) NOT NULL,
+	valor float not null);
+
+create table ACCIONISTAS(
+	id integer primary key NOT NULL AUTO_INCREMENT,
+	nombre varchar(25) NOT NULL UNIQUE,
+	clave varchar(25) not null
+);
+
+create table ACCIONESPORACCIONISTA(
+	id_accion integer not null references ACCIONES(id),
+	id_accionista integer not null references ACCIONISTAS(id),
+	cantidad integer,
+	valor_compra_total float,
+        primary key (id_accion, id_accionista)
+);
+
+insert into ACCIONES (nombre, valor) values
+('Telefonica', 20.0), ('Iberdrola',22.55),
+('Santander', 16.99), ('BBVA', 15.86),
+('C2B', 8.99);
+
+insert into ACCIONISTAS (nombre, clave) values
+('david', '1234'), ('ana', '1234'),
+('pedro', '1234');
+
