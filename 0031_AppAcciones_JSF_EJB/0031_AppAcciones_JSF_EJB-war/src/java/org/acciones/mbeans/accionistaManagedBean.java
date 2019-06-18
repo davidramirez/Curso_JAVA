@@ -5,6 +5,7 @@
  */
 package org.acciones.mbeans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -13,8 +14,8 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import org.acciones.modelo.AccionDeAccionista;
 import org.acciones.servicios.AccionesServiceLocal;
 import org.acciones.servicios.excepciones.BDException;
@@ -26,8 +27,8 @@ import org.acciones.servicios.excepciones.BDException;
 //@Named(value = "accionista")
 //@RequestScoped
 @ManagedBean(name = "accionista")
-@RequestScoped
-public class accionistaManagedBean {
+@ViewScoped
+public class accionistaManagedBean implements Serializable{
 
     private List<AccionDeAccionista> listaAccionesAccionista;
 
@@ -42,7 +43,7 @@ public class accionistaManagedBean {
     }
 
     @PostConstruct
-    private void getListado() {
+    public void getListado() {
         FacesContext fc = FacesContext.getCurrentInstance();
         ResourceBundle bundle = fc.getApplication().evaluateExpressionGet(fc, "#{msg}", ResourceBundle.class);
 

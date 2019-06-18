@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 /**
  *
@@ -45,6 +46,9 @@ public class Accion implements Serializable {
     private double valor;
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "accion", fetch = FetchType.LAZY)
     //private Collection<AccionDeAccionista> accionDeAccionistaCollection;
+    @Column(name = "VERSION")
+    @Version
+    private int version;
 
     public Accion() {
     }
@@ -81,6 +85,14 @@ public class Accion implements Serializable {
 
     public void setValor(double valor) {
         this.valor = valor;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
 //    public Collection<AccionDeAccionista> getAccionDeAccionistaCollection() {

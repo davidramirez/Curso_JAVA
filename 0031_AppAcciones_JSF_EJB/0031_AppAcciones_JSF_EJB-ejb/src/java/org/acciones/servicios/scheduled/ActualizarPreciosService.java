@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -50,6 +51,7 @@ public class ActualizarPreciosService implements ActualizarPreciosServiceLocal {
                 double valor = a.getValor();
                 valor = Math.round((valor * multiplicador) * 1000) / 1000.0;
                 a.setValor(valor);
+                em.merge(a);
             }
 
         } catch (BDException ex) {

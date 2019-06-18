@@ -5,7 +5,8 @@
                 template="./WEB-INF/plantillas/plantillaPrincipal.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:a4j="http://richfaces.org/a4j">
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich">
 
     <ui:define name="title">
         #{msg.accBoltitle}
@@ -16,6 +17,26 @@
     </ui:define>
 
     <ui:define name="content">
+        <rich:messages/>
+
+        <h:panelGroup id="form-modificar">
+            <h:form rendered="#{acciones.modoEdicion}">
+                <h3>Modificar Acción</h3>
+                Nombre
+                <h:inputText value="#{acciones.accionEditar.nombre}" readonly="true"/>
+
+                Valor
+                <h:inputText id="valor" value="#{acciones.accionEditar.valor}">
+                    
+                </h:inputText>
+                <rich:message for="valor"/>
+
+                <h:commandButton value="Grabar" action="#{acciones.grabarAccion()}" />
+                                   <!--render="form-modificar lista"/>-->
+
+            </h:form>
+        </h:panelGroup>
+
         <h2>#{msg.accBolLista}</h2>
         <h:form>
             <a4j:poll id="poll" interval="30000" render="lista"/>
@@ -33,13 +54,16 @@
 
                     <h:column>
                         <f:facet name = "header">#{msg.accion}</f:facet>
-                        <h:form styleClass="form-inline" rendered="#{sesion.usuario != null}">
+                        <h:panelGroup styleClass="form-inline" rendered="#{sesion.usuario != null}">
                             <h:inputText id="cantidad" value="#{acciones.cantidad}" styleClass="form-control" required="true" requiredMessage="#{msg.accBolErrorCantidad}">
                                 <f:validateDoubleRange minimum="0" />
                             </h:inputText>
                             <h:commandButton styleClass="btn btn-primary mx-1" value="#{msg.accBolComprar}" action="#{acciones.btnComprarAccion(accion)}"/>
                             <h:message for="cantidad" />
-                        </h:form>
+                        <a4j:commandButton styleClass="btn btn-warning mx-1" value="Modificar acción" 
+                                           execute="@this"
+                                           action="#{acciones.editarAccion(accion.id)}" render="form-modificar"/>
+                        </h:panelGroup>
                         <h:outputLabel rendered="#{sesion.usuario == null}">#{msg.accBolNoUsuario}</h:outputLabel>
                     </h:column>
                 </h:dataTable>

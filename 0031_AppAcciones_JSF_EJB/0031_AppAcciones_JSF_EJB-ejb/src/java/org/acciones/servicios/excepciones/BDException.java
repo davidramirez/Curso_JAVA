@@ -5,10 +5,13 @@
  */
 package org.acciones.servicios.excepciones;
 
+import javax.ejb.ApplicationException;
+
 /**
  *
  * @author david
  */
+@ApplicationException(rollback = true)
 public class BDException extends MiExcepcion{
 
     public BDException(String msg, String messageKey) {

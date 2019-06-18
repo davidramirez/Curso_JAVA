@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.acciones.modelo.Accionista;
@@ -33,12 +34,9 @@ public class LoginService implements LoginServiceLocal {
             Query q = em.createNamedQuery("Accionista.findByNombreClave");
             q.setParameter("nombre", nombre);
             q.setParameter("clave", clave);
-            Accionista a = (Accionista) q.getSingleResult();
-            if (a != null) {
-                return a;
-            } else {
-                throw new AccionistaException("El nombre o la clave son incorrectos", "loginIncorrecto");
-            }
+            return (Accionista) q.getSingleResult();
+        } catch (NoResultException e){
+             throw new AccionistaException("El nombre o la clave son incorrectos", "loginIncorrecto");
         } catch (Exception ex) {
             log.severe("Al autenticar un accionista. Error de BD. " + ex.getMessage());
             ex.printStackTrace();

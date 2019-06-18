@@ -5,15 +5,18 @@
  */
 package org.acciones.servicios.excepciones;
 
+import javax.ejb.ApplicationException;
+
 /**
  *
  * @author david
  */
+@ApplicationException(rollback = true)
 public abstract class MiExcepcion extends Exception{
     
     private String messsageKey;
 
-    public MiExcepcion(String messsageKey, String message) {
+    public MiExcepcion(String message, String messageKey) {
         super(message);
         this.messsageKey = messsageKey;
     }

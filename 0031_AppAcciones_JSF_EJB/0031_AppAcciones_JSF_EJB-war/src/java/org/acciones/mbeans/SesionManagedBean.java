@@ -53,7 +53,7 @@ public class SesionManagedBean implements Serializable {
     
     public String ponerIdioma(String idioma){
         this.idioma = idioma;
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(idioma));
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("es", "ES"));
         return null;
     }
 

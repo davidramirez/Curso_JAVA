@@ -5,10 +5,13 @@
  */
 package org.acciones.servicios.excepciones;
 
+import javax.ejb.ApplicationException;
+
 /**
  *
  * @author david
  */
+@ApplicationException(rollback = true)
 public class AccionistaException extends MiExcepcion{
 
     public AccionistaException(String msg, String messageKey) {

@@ -29,7 +29,7 @@
         <locale-config>
             <default-locale>es</default-locale>
             <supported-locale>es</supported-locale>
-            <supported-locale>en</supported-locale>
+            <!--<supported-locale>en</supported-locale>-->
         </locale-config>
         <resource-bundle>
             <base-name>org.acciones.recursos.mensajes</base-name>

@@ -6,14 +6,18 @@
 package org.acciones.mbeans;
 
 import com.sun.faces.util.MessageFactory;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.acciones.modelo.Accion;
 import org.acciones.servicios.AccionesServiceLocal;
@@ -27,8 +31,9 @@ import org.acciones.servicios.excepciones.BDException;
 //@Named(value = "acciones")
 //@RequestScoped
 @ManagedBean(name = "acciones")
-@RequestScoped
-public class accionesManagedBean {
+@ViewScoped
+//@SessionScoped
+public class accionesManagedBean implements Serializable{
 
     @EJB
     private AccionesServiceLocal accionesServiceLocal;
@@ -37,6 +42,9 @@ public class accionesManagedBean {
     private SesionManagedBean sesion;
 
     private int cantidad;
+    
+    private boolean modoEdicion = false;
+    private Accion accionEditar;
 
     public accionesManagedBean() {
     }
@@ -84,5 +92,39 @@ public class accionesManagedBean {
         this.cantidad = 0;
         return null;
     }
+    
+    public void editarAccion(int idAccion){
+        FacesContext fc = FacesContext.getCurrentInstance();
+        try {
+            this.accionEditar = accionesServiceLocal.getAccionPorId(idAccion);
+            this.modoEdicion = true;
+        } catch (BDException ex) {
+            fc.addMessage(null, MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_FATAL, new Object[]{idAccion}));
+        } catch (AccionException ex) {
+            fc.addMessage(null, MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_ERROR, new Object[]{idAccion}));
+        }
+    }
 
+    public boolean isModoEdicion() {
+        return modoEdicion;
+    }
+
+    public Accion getAccionEditar() {
+        return accionEditar;
+    }
+
+    public void grabarAccion(){
+        System.out.println("llama grabar++++++++++++++++++++");
+        FacesContext fc = FacesContext.getCurrentInstance();
+        try{
+            accionesServiceLocal.modificarAccion(accionEditar);
+            this.modoEdicion = false;
+            this.accionEditar = null;
+            fc.addMessage(null, MessageFactory.getMessage(fc, "accModificarOk", FacesMessage.SEVERITY_INFO));
+        } catch (BDException ex) {
+            fc.addMessage(null, MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_FATAL, null));
+        } catch (AccionException ex) {
+            fc.addMessage(null, new FacesMessage(ex.getMessage()));//TODO MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_ERROR, null));
+        }
+    }
 }

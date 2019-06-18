@@ -28,6 +28,7 @@ import javax.validation.constraints.Size;
 @Table(name = "ACCIONISTAS")
 @NamedQueries({
     @NamedQuery(name = "Accionista.findAll", query = "SELECT a FROM Accionista a")
+    , @NamedQuery(name = "Accionista.findAllExceptId", query = "SELECT a FROM Accionista a WHERE a.id != :id")
     , @NamedQuery(name = "Accionista.findById", query = "SELECT a FROM Accionista a WHERE a.id = :id")
     , @NamedQuery(name = "Accionista.findByNombre", query = "SELECT a FROM Accionista a WHERE a.nombre = :nombre")
     , @NamedQuery(name = "Accionista.findByClave", query = "SELECT a FROM Accionista a WHERE a.clave = :clave")

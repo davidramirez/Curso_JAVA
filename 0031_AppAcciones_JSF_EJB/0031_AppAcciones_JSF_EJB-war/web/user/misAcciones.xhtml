@@ -4,7 +4,8 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="../WEB-INF/plantillas/plantillaPrincipal.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j">
 
     <ui:define name="title">
         #{msg.misAccTitle}
@@ -17,34 +18,35 @@
     <ui:define name="content">
         <h2>#{msg.accBolLista}</h2>
         <div class="table-responsive-md">
-            <h:dataTable value = "#{accionista.listaAccionesAccionista}" var = "accion" cellpadding="10" styleClass="table table-striped table-hover">
-                <h:column>
-                    <f:facet name = "header">#{msg.empresa}</f:facet>
-                    #{accion.accion.nombre}
-                </h:column>
+            <h:form>
+                <a4j:poll id="poll" interval="30000" render="lista" action="#{accionista.listaAccionesAccionista}"/>
+                <h:dataTable id="lista" value = "#{accionista.listaAccionesAccionista}" var = "accion" cellpadding="10" styleClass="table table-striped table-hover">
+                    <h:column>
+                        <f:facet name = "header">#{msg.empresa}</f:facet>
+                            #{accion.accion.nombre}
+                    </h:column>
 
-                <h:column>
-                    <f:facet name = "header">#{msg.cantidad}</f:facet>
-                        #{accion.cantidad}
-                </h:column>
+                    <h:column>
+                        <f:facet name = "header">#{msg.cantidad}</f:facet>
+                            #{accion.cantidad}
+                    </h:column>
 
-                <h:column>
-                    <f:facet name = "header">#{msg.valorMedioCompra}</f:facet>
-                        #{accion.valorMedioCompra}
-                </h:column>
+                    <h:column>
+                        <f:facet name = "header">#{msg.valorMedioCompra}</f:facet>
+                            #{accion.valorMedioCompra}
+                    </h:column>
 
-                <h:column>
-                    <f:facet name = "header">#{msg.valorActual}</f:facet>
-                        #{accion.valorActualAccion}
-                </h:column>
+                    <h:column>
+                        <f:facet name = "header">#{msg.valorActual}</f:facet>
+                            #{accion.valorActualAccion}
+                    </h:column>
 
-                <h:column>
-                    <f:facet name = "header">#{msg.accAccion}</f:facet>
-                    <h:form>
+                    <h:column>
+                        <f:facet name = "header">#{msg.accAccion}</f:facet>
                         <h:commandButton styleClass="btn btn-primary mx-1" value="#{msg.misAccVender}"/>
-                    </h:form>
-                </h:column>
-            </h:dataTable>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
         </div>
     </ui:define>
 
