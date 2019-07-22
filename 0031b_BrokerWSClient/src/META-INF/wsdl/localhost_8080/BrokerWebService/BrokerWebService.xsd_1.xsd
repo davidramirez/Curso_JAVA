@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.0 (wsit240-7e98ff4; 2017-08-03T21:19:54+0200) JAXWS-RI/2.3.0 JAXWS-API/2.3.0 JAXB-RI/2.3.0 JAXB-API/2.3.0 svn-revision#unknown. --><xs:schema xmlns:tns="http://webServices.acciones.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://webServices.acciones.org/">
+
+<xs:element name="AccionException" type="tns:AccionException"/>
+
+<xs:element name="BDException" type="tns:BDException"/>
+
+<xs:element name="getPrecioAccionPorNombre" type="tns:getPrecioAccionPorNombre"/>
+
+<xs:element name="getPrecioAccionPorNombreResponse" type="tns:getPrecioAccionPorNombreResponse"/>
+
+<xs:complexType name="getPrecioAccionPorNombre">
+<xs:sequence>
+<xs:element name="nombreAccion" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getPrecioAccionPorNombreResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:double"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="BDException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+<xs:element name="messsageKey" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="AccionException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+<xs:element name="messsageKey" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

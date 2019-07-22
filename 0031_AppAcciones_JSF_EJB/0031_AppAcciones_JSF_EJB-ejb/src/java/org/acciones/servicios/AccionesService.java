@@ -6,14 +6,17 @@
 package org.acciones.servicios;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PessimisticLockException;
 import javax.persistence.Query;
 import org.acciones.modelo.Accion;
 import org.acciones.modelo.AccionDeAccionista;
@@ -215,6 +218,40 @@ public class AccionesService implements AccionesServiceLocal {
             log.severe("Al modificar una acción. Error de BD. " + e.getMessage());
             e.printStackTrace();
             throw new BDException("Error al modificar una acción. Contacte con el administrador", "accionModificarBDError");
+        }
+    }
+
+    @Override
+    public void modificarAccionPessimistic(int idAccion, double valor) throws BDException, AccionException {
+        try{
+            Accion a = em.find(Accion.class, idAccion, LockModeType.PESSIMISTIC_WRITE);
+            Thread.sleep(3000);
+            a.setValor(valor);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AccionesService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PessimisticLockException ex) {
+            log.severe("Se ha producido una PessimisticLockException al modificar la acción con id " + idAccion+". "+ex.getMessage());
+            throw new AccionException("Ya hay un usuario modificando la acción", "accionUpdatePessLock");
+        } catch (Exception ex){
+            log.severe("Al modificar una acción. Error de BD. " + ex.getMessage());
+            ex.printStackTrace();
+            throw new BDException("Error al modificar una acción. Contacte con el administrador", "accionModificarBDError");
+        }
+    }
+
+    @Override
+    public double getPrecioAccionPorNombre(String nombreAccion) throws BDException, AccionException {
+        try{
+            
+            Accion a = (Accion) em.createNamedQuery("Accion.findByNombre").setParameter("nombre", nombreAccion).getSingleResult();
+            return a.getValor();
+            
+        } catch (NoResultException ex){
+            throw new AccionException("No se encontró una acción con el nombre indicado", "accNombreNoEncontrado");
+        } catch (Exception ex){
+            log.severe("Al buscar el precio de una acción. Error de BD. " + ex.getMessage());
+            ex.printStackTrace();
+            throw new BDException("Error al buscar el precio de una acción. Contacte con el administrador", "accionModificarBDError");
         }
     }
 

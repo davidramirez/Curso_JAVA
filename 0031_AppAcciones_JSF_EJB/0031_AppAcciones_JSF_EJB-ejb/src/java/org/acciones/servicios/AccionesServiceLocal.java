@@ -25,6 +25,9 @@ public interface AccionesServiceLocal {
     public double comprarAccion(int idAccion, int idAccionista, int cantidad) throws BDException, AccionException;
     public Accion getAccionPorId(int idAccion) throws BDException, AccionException;
     public void modificarAccion(Accion accion) throws BDException, AccionException;
+    public void modificarAccionPessimistic(int idAccion, double valor) throws BDException, AccionException;
+    
+    public double getPrecioAccionPorNombre(String nombreAccion) throws BDException, AccionException;
     
     public List<Accionista> listarAccionistas() throws BDException;
     public List<Accionista> listarAccionistasSinId(int idNoListar) throws BDException;

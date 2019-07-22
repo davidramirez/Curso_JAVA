@@ -16,6 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -23,6 +24,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name = "ACCIONES")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Accion.findAll", query = "SELECT a FROM Accion a")
     , @NamedQuery(name = "Accion.findById", query = "SELECT a FROM Accion a WHERE a.id = :id")
@@ -46,8 +48,8 @@ public class Accion implements Serializable {
     private double valor;
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "accion", fetch = FetchType.LAZY)
     //private Collection<AccionDeAccionista> accionDeAccionistaCollection;
-    @Column(name = "VERSION")
-    @Version
+    //@Column(name = "VERSION")
+    //@Version
     private int version;
 
     public Accion() {

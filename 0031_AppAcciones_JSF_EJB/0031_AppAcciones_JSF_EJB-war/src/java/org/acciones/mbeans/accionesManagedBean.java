@@ -127,4 +127,19 @@ public class accionesManagedBean implements Serializable{
             fc.addMessage(null, new FacesMessage(ex.getMessage()));//TODO MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_ERROR, null));
         }
     }
+    
+    public void grabarAccionPesimista(){
+        System.out.println("llama grabar pesimista++++++++++++++++++++");
+        FacesContext fc = FacesContext.getCurrentInstance();
+        try{
+            accionesServiceLocal.modificarAccionPessimistic(accionEditar.getId(), accionEditar.getValor());
+            this.modoEdicion = false;
+            this.accionEditar = null;
+            fc.addMessage(null, MessageFactory.getMessage(fc, "accModificarOk", FacesMessage.SEVERITY_INFO));
+        } catch (BDException ex) {
+            fc.addMessage(null, MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_FATAL, null));
+        } catch (AccionException ex) {
+            fc.addMessage(null, new FacesMessage(ex.getMessage()));//TODO MessageFactory.getMessage(fc, ex.getMesssageKey(), FacesMessage.SEVERITY_ERROR, null));
+        }
+    }
 }

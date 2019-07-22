@@ -31,8 +31,10 @@
                 </h:inputText>
                 <rich:message for="valor"/>
 
-                <h:commandButton value="Grabar" action="#{acciones.grabarAccion()}" />
-                                   <!--render="form-modificar lista"/>-->
+                <a4j:commandButton value="Grabar" action="#{acciones.grabarAccion()}" 
+                                 render="form-modificar lista"/>
+                <a4j:commandButton value="Grabar Pesimista" action="#{acciones.grabarAccionPesimista()}" 
+                                 render="form-modificar lista"/>
 
             </h:form>
         </h:panelGroup>

@@ -6,12 +6,14 @@
 package org.acciones.servicios.excepciones;
 
 import javax.ejb.ApplicationException;
+import javax.xml.ws.WebFault;
 
 /**
  *
  * @author david
  */
 @ApplicationException(rollback = true)
+@WebFault
 public class AccionException extends MiExcepcion{
     
     public AccionException(String msg, String messageKey) {
