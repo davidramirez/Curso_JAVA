@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <h:head>
+        <title>Acciones App</title>
+    </h:head>
+    <h:body>
+        <h1>#{textos.titulo}</h1>
+        
+        <h3>Lista de Acciones</h3>
+        <h:form id="form">
+            <rich:dataTable value="#{accionesMB.listaAcciones}" var="accion" id="dTListaAcciones" rows="5">
+                <rich:column sortBy="#{accion.idAccion}" id="id">
+                    <f:facet name="header">ID</f:facet>
+                    <h:outputText value="#{accion.idAccion}" />
+                </rich:column>
+
+                <rich:column sortBy="#{accion.nombre}" id="nombre">
+                    <f:facet name="header">Nombre</f:facet>
+                    <h:outputText value="#{accion.nombre}" />
+                </rich:column>
+                
+                <rich:column sortBy="#{accion.valor}" id="valor">
+                    <f:facet name="header">Valor</f:facet>
+                    <h:outputText value="#{accion.valor}" />
+                </rich:column>
+
+                <rich:column id="borrar">
+                    <f:facet name="header">Acciones</f:facet>
+                    <h:form>
+                        <a4j:commandLink value="Borrar" render="dTListaAcciones"
+                                         immediate="true" execute="@this"
+                                         action="#{accionesMB.btnBorrar(accion.idAccion)}"/>
+                        |
+                        <a4j:commandLink value="Editar" render="modificarPanel"
+                                         immediate="true" execute="@this"
+                                         action="#{accionesMB.btnPrepararModificar(accion.idAccion)}"/>
+                    </h:form>
+                </rich:column>
+
+                <f:facet name="footer">
+                    <rich:dataScroller />
+                </f:facet>
+            </rich:dataTable>
+        </h:form>
+
+        <h:form>
+            <h:panelGroup id="modificarPanel">
+                <rich:panel header="Modificar precio de acción"
+                            rendered="#{accionesMB.modoEdicion}">
+                    <h:panelGrid columns="3">
+                        <h:outputLabel for="id" value="Id:"/>
+                        <h:inputText id="id" value="#{accionesMB.modificarAccion.idAccion}" readonly="true"/>
+                        <rich:message for="id"/>
+
+                        <h:outputLabel for="nombre" value="Nombre:"/>
+                        <h:inputText id="nombre" value="#{accionesMB.modificarAccion.nombre}" readonly="true"/>
+                        <rich:message for="nombre"/>
+                        
+                        <h:outputLabel for="valor" value="Valor"/>
+                        <h:inputText id="valor" value="#{accionesMB.modificarAccion.valor}" required="true"/>
+                        <rich:message for="valor"/>
+
+                        <a4j:commandButton value="Modificar" render="dTListaAcciones modificarPanel" 
+                                           action="#{accionesMB.btnGuardarModificacion()}"/>
+                    </h:panelGrid>
+                </rich:panel>
+            </h:panelGroup>
+        </h:form>
+
+
+        <rich:panel header="Alta nueva accion">
+            <h:form>
+                <h:panelGrid columns="3">
+                    <h:outputLabel for="nombre" value="Nombre:"/>
+                    <h:inputText id="nombre" value="#{accionesMB.nuevaAccion.nombre}" required="true"/>
+                    <rich:message for="nombre"/>
+                    
+                    <h:outputLabel for="valor" value="Valor"/>
+                    <h:inputText id="valor" value="#{accionesMB.nuevaAccion.valor}" required="true"/>
+                    <rich:message for="valor"/>
+
+                    <a4j:commandButton value="Insertar" render="dTListaAcciones" action="#{accionesMB.btnGuardarNuevo()}"/>
+                </h:panelGrid>
+            </h:form>
+        </rich:panel>
+        
+        <rich:messages/>
+    </h:body>
+</html>
+

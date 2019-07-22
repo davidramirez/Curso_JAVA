@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+    <h:head>
+        <title>Demo 2</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGrid columns="3">
+                DNI:
+                <h:inputText id="dni" value="#{empleadoBean.dni}" required="true">
+                    <a4j:ajax execute="@this" render="out m1"
+                              listener="#{empleadoBean.listenerExisteDni(ev)}"
+                              bypassUpdates="true"/>
+                </h:inputText>
+                <rich:message for="dni"/><!-- incorpora la renderizacion tras ajax sin especificarlo en la llamada -->
+                <!--<h:message for="dni"/>-->
+                <a4j:region>
+                    
+                Nombre:
+                <h:inputText id="nombre" value="#{empleadoBean.nombre}"></h:inputText>
+                <h:message id="m1" for="nombre"/>
+
+                Apellidos:
+                <h:inputText id="apellidos" value="#{empleadoBean.apellidos}"></h:inputText>
+                <h:message for="apellidos"/>
+
+                <a4j:commandButton value="grabar nombre apellido región"
+                                   action="#{empleadoBean.btnGuardar()}"/>
+                </a4j:region>
+                <h:commandButton value="grabar" action="#{empleadoBean.btnGuardar()}"/>
+
+                <a4j:commandButton value="grabar ajax"
+                                   execute="@form"
+                                   render="out"
+                                   action="#{empleadoBean.btnGuardar()}"/>
+
+                out:
+                <h:outputText id="out2" value="#{empleadoBean.dni}"/>
+
+                <h:panelGroup id="out">
+                    DNI:<h:outputText value="#{empleadoBean.dni}"/>
+                    Nombre:<h:outputText value="#{empleadoBean.nombre}"/>
+                    Apellido:<h:outputText value="#{empleadoBean.apellidos}"/>
+                </h:panelGroup>
+                <a4j:outputPanel layout="block" ajaxRendered="true">
+                    <!-- Se renderiza siempre que haya una peticion ajax Block->div line->span -->
+                    DNI:<h:outputText value="#{empleadoBean.dni}"/>
+                    Nombre:<h:outputText value="#{empleadoBean.nombre}"/>
+                    Apellido:<h:outputText value="#{empleadoBean.apellidos}"/>                
+                </a4j:outputPanel>
+            </h:panelGrid>
+
+            <rich:messages ></rich:messages>
+        </h:form>
+    </h:body>
+</html>
+

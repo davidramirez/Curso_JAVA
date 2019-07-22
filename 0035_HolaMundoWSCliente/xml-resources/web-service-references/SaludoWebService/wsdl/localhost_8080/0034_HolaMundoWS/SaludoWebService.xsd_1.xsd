@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.0 (wsit240-7e98ff4; 2017-08-03T21:19:54+0200) JAXWS-RI/2.3.0 JAXWS-API/2.3.0 JAXB-RI/2.3.0 JAXB-API/2.3.0 svn-revision#unknown. --><xs:schema xmlns:tns="http://ws.demo/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.demo/">
+
+<xs:element name="ProductosException" type="tns:ProductoException"/>
+
+<xs:element name="getListProductCodes" type="tns:getListProductCodes"/>
+
+<xs:element name="getListProductCodesResponse" type="tns:getListProductCodesResponse"/>
+
+<xs:element name="getProductCodeById" type="tns:getProductCodeById"/>
+
+<xs:element name="getProductCodeByIdResponse" type="tns:getProductCodeByIdResponse"/>
+
+<xs:element name="productCode" type="tns:productCode"/>
+
+<xs:element name="saludar" type="tns:saludar"/>
+
+<xs:element name="saludarResponse" type="tns:saludarResponse"/>
+
+<xs:complexType name="getListProductCodes">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getListProductCodesResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:productCode" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="productCode">
+<xs:sequence>
+<xs:element name="description" type="xs:string" minOccurs="0"/>
+<xs:element name="discountCode" type="xs:string" minOccurs="0"/>
+<xs:element name="prodCode" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="saludar">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="saludarResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getProductCodeById">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getProductCodeByIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:productCode" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ProductoException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

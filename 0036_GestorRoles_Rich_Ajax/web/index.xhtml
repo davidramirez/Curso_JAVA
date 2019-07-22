@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <h:head>
+        <title>Gestor de roles</title>
+    </h:head>
+    <h:body>
+        <rich:panel header="Gestión de roles" >
+            <h:form id="formRol">
+                Rol:
+                <rich:select value="#{gestorRoles.rolSeleccionado}" >
+                    <f:selectItems value="#{gestorRoles.listaRoles}"/>
+                    <a4j:ajax event="selectitem" execute="@form" render="gestor"/>
+                </rich:select>
+            </h:form>
+
+            <h:panelGroup id="gestor">
+                <h:panelGroup rendered="#{gestorRoles.rolSeleccionado != null}">
+                    <h:form>
+                        <h:panelGrid columns="2">
+
+                            <rich:panel style="width: 300px;height: 650px">
+                                <rich:dropTarget render="usuariosRol usuariosNoRol" acceptedTypes="usr" dropListener="#{gestorRoles.dragListenerListaUsuariosEnRol}"/>
+                                <f:facet name="header">
+                                    <h:outputText value="Usuarios del Rol" />
+                                </f:facet>
+                                <h:dataTable id="usuariosRol" value="#{gestorRoles.listaUsuariosEnRol}" var="uR">
+                                    <h:column>
+                                        <a4j:outputPanel layout="block">
+                                            <rich:dragSource dragValue="#{uR}" type="rol" />
+                                            <h:graphicImage width="50" library="img" name="usuario.png"/>
+                                            <h:outputText value="#{uR}" />
+                                        </a4j:outputPanel>
+                                    </h:column>
+                                </h:dataTable>
+                            </rich:panel>
+
+                            <rich:panel style="width: 300px;height: 650px">
+                                <rich:dropTarget render="usuariosRol usuariosNoRol" acceptedTypes="rol" dropListener="#{gestorRoles.dragListenerListaUsuariosNoRol}"/>
+                                <f:facet name="header">
+                                    <h:outputText value="Usuarios del Rol" />
+                                </f:facet>
+                                <h:dataTable id="usuariosNoRol" value="#{gestorRoles.listaUsuariosNoEnRol}" var="uNR">
+                                    <h:column>
+                                        <a4j:outputPanel layout="block">
+                                            <rich:dragSource dragValue="#{uNR}" type="usr"/>
+                                            <h:graphicImage width="50" library="img" name="usuario.png"/>
+                                            <h:outputText value="#{uNR}" />
+                                        </a4j:outputPanel>
+                                    </h:column>
+                                </h:dataTable>
+                            </rich:panel>
+
+                        </h:panelGrid>
+                    </h:form>
+                </h:panelGroup>
+            </h:panelGroup>
+        </rich:panel>
+    </h:body>
+</html>
+

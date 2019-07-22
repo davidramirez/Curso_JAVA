@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <h:head>
+        <title>demo 4 validacion</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <rich:graphValidator value="#{login}">
+                <rich:panel header="Cambiar contraseña">
+                    <rich:messages/>
+                    <h:panelGrid columns="3">
+                        Nueva clave:
+                        <h:inputSecret value="#{login.password}" id="pass"></h:inputSecret>
+                        <rich:message for="pass"/>
+                        
+                        Repite nueva clave:
+                        <h:inputSecret value="#{login.confirm}" id="confirm"></h:inputSecret>
+                        <rich:message for="confirm"/>
+                    </h:panelGrid>
+                    <a4j:commandButton value="Guardar contraseña" action="#{login.almacenarNuevaPassword()}"/>
+                </rich:panel>
+            </rich:graphValidator>
+        </h:form>
+    </h:body>
+</html>
+

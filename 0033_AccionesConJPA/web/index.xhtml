@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j">
+    <h:head>
+        <title>Acciones App</title>
+    </h:head>
+    <h:body>
+        <h1>#{textos.titulo}</h1>
+        
+        <h3>Lista de Accionistas</h3>
+        <h:form id="form">
+            <rich:dataTable value="#{accionistasMB.listaAccionistas}" var="accionista" id="dTListaAccionistas" rows="5">
+                <rich:column sortBy="#{accionista.idAccionista}" id="id">
+                    <f:facet name="header">ID</f:facet>
+                    <h:outputText value="#{accionista.idAccionista}" />
+                </rich:column>
+
+                <rich:column sortBy="#{accionista.nombre}" id="nombre">
+                    <f:facet name="header">Nombre</f:facet>
+                    <h:outputText value="#{accionista.nombre}" />
+                </rich:column>
+
+                <rich:column id="borrar">
+                    <f:facet name="header">Acciones</f:facet>
+                    <h:form>
+                        <a4j:commandLink value="Borrar" render="dTListaAccionistas"
+                                         immediate="true" execute="@this"
+                                         action="#{accionistasMB.btnBorrarAccionista(accionista.idAccionista)}"/>
+                        |
+                        <a4j:commandLink value="Añade María" render="dTListaAccionistas"
+                                         immediate="true" execute="@this"
+                                         action="#{accionistasMB.btnModificarNombreAccionista(accionista)}"/>
+                        |
+                        <a4j:commandLink value="Editar" render="modificarPanel"
+                                         immediate="true" execute="@this"
+                                         action="#{accionistasMB.btnEditar(accionista.idAccionista)}"/>
+                    </h:form>
+                </rich:column>
+
+                <f:facet name="footer">
+                    <rich:dataScroller />
+                </f:facet>
+            </rich:dataTable>
+        </h:form>
+
+        <h:form>
+            <h:panelGroup id="modificarPanel">
+                <rich:panel header="Modificar accionista"
+                            rendered="#{accionistasMB.modoEdicion}">
+                    <h:panelGrid columns="3">
+                        <h:outputLabel for="id" value="Id:"/>
+                        <h:inputText id="id" value="#{accionistasMB.accionistaModificar.idAccionista}" readonly="false"/>
+                        <rich:message for="id"/>
+
+                        <h:outputLabel for="nombre" value="Nombre:"/>
+                        <h:inputText id="nombre" value="#{accionistasMB.accionistaModificar.nombre}" required="true"/>
+                        <rich:message for="nombre"/>
+
+                        <a4j:commandButton value="Modificar" render="dTListaAccionistas modificarPanel" 
+                                           action="#{accionistasMB.btnGrabarCambios()}"/>
+                    </h:panelGrid>
+                </rich:panel>
+            </h:panelGroup>
+        </h:form>
+
+
+        <rich:panel header="Alta nuevo accionista">
+            <h:form>
+                <h:panelGrid columns="3">
+                    <h:outputLabel for="nombre" value="Nombre:"/>
+                    <h:inputText id="nombre" value="#{accionistasMB.nuevoAccionista.nombre}" required="true"/>
+                    <rich:message for="nombre"/>
+
+                    <a4j:commandButton value="Insertar" render="dTListaAccionistas" action="#{accionistasMB.btnInsertarAccionista()}"/>
+                </h:panelGrid>
+            </h:form>
+        </rich:panel>
+        
+        <rich:messages/>
+    </h:body>
+</html>
+
